@@ -1,21 +1,40 @@
 {
   "name": "handnote-server",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "main": "index.js",
   "repository": "git@github.com:mutoe/handnote-server.git",
   "author": "mutoe <mutoe@foxmail.com>",
   "license": "MIT",
   "private": true,
+  "scripts": {
+    "serve": "ts-node src/server.ts",
+    "build:migration": "tsc migration/*.ts",
+    "migration:up": "typeorm migration:run",
+    "migration:down": "typeorm migration:revert"
+  },
   "dependencies": {
     "dotenv": "^8.0.0",
+    "http-status-codes": "^1.3.2",
     "koa": "^2.7.0",
-    "koa-joi-router": "^6.0.0",
+    "koa-bodyparser": "^4.2.1",
+    "koa-jwt": "^3.5.1",
+    "koa-router": "^7.4.0",
     "mysql2": "^1.6.5",
-    "sequelize": "^5.8.6",
-    "sequelize-cli": "^5.4.0"
+    "reflect-metadata": "^0.1.13",
+    "typeorm": "^0.2.17"
   },
   "devDependencies": {
-    "eslint": "^5.16.0",
-    "prettier": "1.17.1"
+    "@types/http-status-codes": "^1.2.0",
+    "@types/koa": "^2.0.48",
+    "@types/koa-bodyparser": "^4.3.0",
+    "@types/koa-router": "^7.0.40",
+    "@types/node": "^12",
+    "prettier": "^1.17.1",
+    "ts-node": "^8.2.0",
+    "tsconfig-paths": "^3.8.0",
+    "tslint": "^5.16.0",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-plugin-prettier": "^2.0.1",
+    "typescript": "^3.4.5"
   }
 }
