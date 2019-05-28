@@ -13,7 +13,10 @@ app.use(async (ctx, next) => {
     await next()
   } catch (error) {
     ctx.status = error.statusCode || error.status || HttpStatus.INTERNAL_SERVER_ERROR
-    error.status = ctx.status
+    error = {
+      status: ctx.status,
+      message: error.message,
+    }
     ctx.body = { error }
     ctx.app.emit('error', error, ctx)
   }

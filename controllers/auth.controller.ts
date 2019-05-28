@@ -1,8 +1,19 @@
 import { getRepository } from 'typeorm'
 import { User } from '../entity/user.entity'
+import jwt from 'jsonwebtoken'
 import { Context } from 'koa'
 
-class AuthController {
+const expiresIn = 24 * 3600 // 24h
+export const jwtSecret = process.env.JWT_SECRET || 'HandNote!'
+
+export class AuthController {
+  static getToken(openId: string) {
+    return jwt.sign({ openId }, jwtSecret, { expiresIn })
+  }
+  static parseToken(token: string) {
+    return jwt.verify(token, jwtSecret)
+  }
+
   async login(ctx: Context) {
     const UserModel = getRepository(User)
     const input = ctx.request.body
@@ -11,7 +22,12 @@ class AuthController {
       user = UserModel.create(input) as any
       user = await UserModel.save(user as any)
     }
-    ctx.body = user
+    const token = AuthController.getToken(input.openId)
+
+    ctx.body = {
+      token,
+      expiresAt: Date.now() + expiresIn * 1000,
+    }
   }
 }
 
