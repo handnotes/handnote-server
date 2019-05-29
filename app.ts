@@ -1,7 +1,7 @@
+import 'dotenv/config'
 import bodyParser from 'koa-bodyparser'
 import jwt from 'koa-jwt'
 import Koa from 'koa'
-import HttpStatus from 'http-status-codes'
 import { router, protectedRouter } from './routes'
 
 // Initial Application
@@ -12,7 +12,7 @@ app.use(async (ctx, next) => {
   try {
     await next()
   } catch (error) {
-    ctx.status = error.statusCode || error.status || HttpStatus.INTERNAL_SERVER_ERROR
+    ctx.status = error.statusCode || error.status || 500
     error = {
       status: ctx.status,
       message: error.message,
