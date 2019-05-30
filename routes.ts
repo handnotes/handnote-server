@@ -1,12 +1,16 @@
 import Router from 'koa-router'
-import Auth, { jwtSecret } from './controllers/auth.controller'
+import { jwtSecret } from './controllers/auth.controller'
 import jwt from 'koa-jwt'
-import User from './controllers/user.controller'
+import { login } from './controllers/wechat.controller'
 
+/** 无需登录即可访问的接口 */
 export const router = new Router({ prefix: '/api' })
+
+// 根据 code 获取 accessToken 并刷新 sessionKey
+router.get('/wechat/login', login)
+
+/** 受授权保护的接口 */
 export const protectedRouter = new Router({ prefix: '/api' })
 protectedRouter.use(jwt({ secret: jwtSecret }))
 
-protectedRouter.get('/user', User.getUserInfo)
-
-router.post('/auth/login', Auth.login)
+// protectedRouter.get('/user', User.getUserInfo)

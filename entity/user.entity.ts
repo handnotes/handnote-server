@@ -11,8 +11,14 @@ export class User {
   @Column({ unique })
   openId!: string
 
-  @Column({ nullable, default: '' })
+  @Column({ nullable })
+  sessionKey?: string
+
+  @Column({ nullable })
   name?: string
+
+  @Column({ nullable })
+  email?: string
 
   @Column({ nullable })
   avatar?: string
