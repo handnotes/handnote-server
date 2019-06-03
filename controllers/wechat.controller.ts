@@ -45,9 +45,9 @@ export async function login(ctx: Context) {
     ctx.status = 200
   }
   user.sessionKey = sessionKey
-  UserModel.save(user)
+  user = await UserModel.save(user)
 
-  const accessToken = getToken(openId, sessionKey)
+  const accessToken = getToken(user.id, openId, sessionKey)
   return (ctx.body = { accessToken })
 }
 

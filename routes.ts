@@ -1,7 +1,9 @@
 import Router from 'koa-router'
-import { jwtSecret } from './controllers/auth.controller'
 import jwt from 'koa-jwt'
+import { jwtSecret } from './controllers/auth.controller'
 import { login } from './controllers/wechat.controller'
+import { setMenstrual } from './controllers/menstrual.controller'
+import { getUserData } from './controllers/user.controller'
 
 /** 无需登录即可访问的接口 */
 export const router = new Router({ prefix: '/api' })
@@ -13,4 +15,8 @@ router.get('/wechat/login', login)
 export const protectedRouter = new Router({ prefix: '/api' })
 protectedRouter.use(jwt({ secret: jwtSecret }))
 
-// protectedRouter.get('/user', User.getUserInfo)
+// 获取聚合数据
+protectedRouter.get('/user', getUserData)
+
+// 设置生理期
+protectedRouter.post('/menstrual', setMenstrual)
