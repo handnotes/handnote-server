@@ -8,10 +8,10 @@ export class User {
   @PrimaryGeneratedColumn()
   id!: number
 
-  @Column({ unique })
+  @Column({ unique, select: false })
   openId!: string
 
-  @Column({ nullable })
+  @Column({ nullable, select: false })
   sessionKey?: string
 
   @Column({ nullable })
