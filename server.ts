@@ -9,7 +9,7 @@ import createConnection from './database.connection'
   }
 
   /** Application working port */
-  const PORT: number = Number(process.env.PORT) || 3050
+  const PORT: number = Number(process.env.APP_PORT) || 3050
 
   // launch App
   app.listen(PORT, () => {
