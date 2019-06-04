@@ -2,7 +2,7 @@ module.exports = {
   apps: [
     {
       name: 'dev',
-      script: './src/index.ts',
+      script: './server.ts',
 
       instances: 1,
       exec_mode: 'fork',
@@ -18,7 +18,7 @@ module.exports = {
     },
     {
       name: 'prod',
-      script: './src/index.ts',
+      script: './server.ts',
 
       instances: 1,
       exec_mode: 'fork',

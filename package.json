@@ -1,13 +1,13 @@
 {
   "name": "handnote-server",
   "version": "0.4.0",
-  "main": "index.js",
+  "main": "server.ts",
   "repository": "git@github.com:mutoe/handnote-server.git",
   "author": "mutoe <mutoe@foxmail.com>",
   "license": "MIT",
   "private": true,
   "scripts": {
-    "serve": "ts-node src/server.ts",
+    "serve": "ts-node server.ts",
     "migration:build": "tsc migration/*.ts",
     "migration:up": "typeorm migration:run",
     "migration:down": "typeorm migration:revert"
