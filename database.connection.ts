@@ -11,6 +11,7 @@ export default async () => {
     logging: true,
     synchronize: true,
     entities: [entitiesPath],
+    useNewUrlParser: true,
   } as ConnectionOptions)
 
   // Create Connection

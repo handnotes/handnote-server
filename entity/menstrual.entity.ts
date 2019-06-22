@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryColumn } from 'typeorm'
+import { Entity, Column, ObjectID, ObjectIdColumn } from 'typeorm'
 
 export enum MenstrualStatus {
   disabled,
@@ -7,8 +7,8 @@ export enum MenstrualStatus {
 
 @Entity()
 export class Menstrual {
-  @PrimaryColumn()
-  userId!: number
+  @ObjectIdColumn()
+  userId?: ObjectID
 
   @Column({ default: MenstrualStatus.disabled })
   status: MenstrualStatus = MenstrualStatus.disabled
@@ -21,4 +21,8 @@ export class Menstrual {
 
   @Column({ default: 6 })
   duration: number = 6
+
+  constructor(userId: ObjectID) {
+    this.userId = userId
+  }
 }

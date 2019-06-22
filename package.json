@@ -21,8 +21,9 @@
     "koa-bodyparser": "^4.2.1",
     "koa-jwt": "^3.5.1",
     "koa-router": "^7.4.0",
+    "lodash": "^4.17.11",
     "memory-cache": "^0.2.0",
-    "mysql2": "^1.6.5",
+    "mongodb": "^3.2.7",
     "reflect-metadata": "^0.1.13",
     "typeorm": "^0.2.17"
   },
@@ -31,6 +32,7 @@
     "@types/koa": "^2.0.48",
     "@types/koa-bodyparser": "^4.3.0",
     "@types/koa-router": "^7.0.40",
+    "@types/lodash": "^4.14.134",
     "@types/memory-cache": "^0.2.0",
     "@types/node": "^12",
     "prettier": "^1.17.1",

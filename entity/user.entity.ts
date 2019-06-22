@@ -1,12 +1,20 @@
-import { PrimaryGeneratedColumn, Column, Entity, CreateDateColumn, UpdateDateColumn } from 'typeorm'
+import {
+  Column,
+  Entity,
+  CreateDateColumn,
+  UpdateDateColumn,
+  ObjectIdColumn,
+  ObjectID,
+} from 'typeorm'
+import { Menstrual } from './menstrual.entity'
 
 const nullable = true
 const unique = true
 
 @Entity()
 export class User {
-  @PrimaryGeneratedColumn()
-  id!: number
+  @ObjectIdColumn()
+  id!: ObjectID
 
   @Column({ unique, select: false })
   openId!: string
@@ -28,6 +36,9 @@ export class User {
 
   @Column({ nullable })
   address?: string
+
+  @Column(() => Menstrual)
+  menstrual?: Menstrual
 
   @CreateDateColumn()
   createdAt!: Date

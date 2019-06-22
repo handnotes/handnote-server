@@ -2,8 +2,9 @@
 import { Context } from 'koa'
 import axios from 'axios'
 import { User } from '../entity/user.entity'
-import { getRepository } from 'typeorm'
+import { getManager } from 'typeorm'
 import { getToken } from './auth.controller'
+import { Menstrual } from '../entity/menstrual.entity'
 
 const appid = process.env.WECHAT_MP_APPID || ''
 const secret = process.env.WECHAT_MP_SECRET || ''
@@ -35,17 +36,19 @@ export async function login(ctx: Context) {
   }
 
   // 存储 session key 用于后续请求
-  const UserModel = getRepository(User)
-  let user = await UserModel.findOne({ openId })
+  const manager = getManager()
+  let user = await manager.findOne(User, { openId })
+  console.error(user)
   // 没有就创建一个
   if (!user) {
-    user = UserModel.create({ openId })
+    user = manager.create(User, { openId })
+    user.menstrual = new Menstrual(user.id)
     ctx.status = 201
   } else {
     ctx.status = 200
   }
   user.sessionKey = sessionKey
-  user = await UserModel.save(user)
+  user = await manager.save(user)
 
   const accessToken = getToken(user.id, openId, sessionKey)
   return (ctx.body = { accessToken })

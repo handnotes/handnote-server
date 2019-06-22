@@ -19,4 +19,4 @@ protectedRouter.use(jwt({ secret: jwtSecret }))
 protectedRouter.get('/user', getUserData)
 
 // 设置生理期
-protectedRouter.post('/menstrual', setMenstrual)
+protectedRouter.put('/menstrual', setMenstrual)
