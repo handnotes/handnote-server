@@ -11,6 +11,9 @@ const app = new Koa()
 app.use(async (ctx, next) => {
   try {
     await next()
+    if (ctx.status >= 200 && ctx.status < 300 && !ctx.body) {
+      ctx.body = {}
+    }
   } catch (error) {
     ctx.status = error.statusCode || error.status || 500
     error = {

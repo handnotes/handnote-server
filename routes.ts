@@ -4,6 +4,7 @@ import { jwtSecret } from './controllers/auth.controller'
 import { login } from './controllers/wechat.controller'
 import { setMenstrual } from './controllers/menstrual.controller'
 import { getUserData } from './controllers/user.controller'
+import { createMemorial } from './controllers/memorial.controller'
 
 /** 无需登录即可访问的接口 */
 export const router = new Router({ prefix: '/api' })
@@ -20,3 +21,6 @@ protectedRouter.get('/user', getUserData)
 
 // 设置生理期
 protectedRouter.put('/menstrual', setMenstrual)
+
+// 添加纪念日
+protectedRouter.post('/memorial', createMemorial)

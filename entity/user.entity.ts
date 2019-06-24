@@ -7,6 +7,7 @@ import {
   ObjectID,
 } from 'typeorm'
 import { Menstrual } from './menstrual.entity'
+import { Memorial } from './memorial.entity'
 
 const nullable = true
 const unique = true
@@ -39,6 +40,9 @@ export class User {
 
   @Column(() => Menstrual)
   menstrual?: Menstrual
+
+  @Column(() => Memorial)
+  memorials?: Memorial[]
 
   @CreateDateColumn()
   createdAt!: Date

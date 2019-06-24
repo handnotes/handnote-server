@@ -2,7 +2,7 @@
 import { Context } from 'koa'
 import axios from 'axios'
 import { User } from '../entity/user.entity'
-import { getManager } from 'typeorm'
+import { getMongoRepository } from 'typeorm'
 import { getToken } from './auth.controller'
 import { Menstrual } from '../entity/menstrual.entity'
 
@@ -36,19 +36,21 @@ export async function login(ctx: Context) {
   }
 
   // 存储 session key 用于后续请求
-  const manager = getManager()
-  let user = await manager.findOne(User, { openId })
-  console.error(user)
+  const userRepo = getMongoRepository(User)
+  let user = await userRepo.findOne({ openId })
+
   // 没有就创建一个
   if (!user) {
-    user = manager.create(User, { openId })
+    user = userRepo.create({ openId })
     user.menstrual = new Menstrual(user.id)
     ctx.status = 201
+    user.createdAt = new Date()
   } else {
     ctx.status = 200
   }
   user.sessionKey = sessionKey
-  user = await manager.save(user)
+  user.updatedAt = new Date()
+  await userRepo.replaceOne({ openId }, user, { upsert: true })
 
   const accessToken = getToken(user.id, openId, sessionKey)
   return (ctx.body = { accessToken })
