@@ -8,5 +8,5 @@ export async function getUserData(ctx: Context) {
   const manager = getMongoRepository(User)
   const user = await manager.findOne(userId)
   ctx.assert(user, 401, 'invalid access token')
-  ctx.body = _.pick(user, ['id', 'menstrual'])
+  ctx.body = _.pick(user, ['id', 'menstrual', 'memorials'])
 }
