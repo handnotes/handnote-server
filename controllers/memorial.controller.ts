@@ -9,7 +9,7 @@ export async function createMemorial(ctx: Context) {
   const userRepo = getMongoRepository(User)
   const memorial = new Memorial(type, date, person)
 
-  const { modifiedCount } = await userRepo.updateOne(
+  await userRepo.updateOne(
     { id: userId },
     {
       $push: {
@@ -17,6 +17,5 @@ export async function createMemorial(ctx: Context) {
       },
     },
   )
-  ctx.assert(modifiedCount, 500, '未更新')
   ctx.status = 201
 }
