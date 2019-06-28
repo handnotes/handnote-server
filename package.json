@@ -7,7 +7,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "serve": "ts-node server.ts",
+    "serve": "NODE_ENV=development pm2-dev server.ts",
     "migration:build": "tsc migration/*.ts",
     "migration:up": "typeorm migration:run",
     "migration:down": "typeorm migration:revert"
