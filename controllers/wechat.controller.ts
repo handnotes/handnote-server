@@ -1,10 +1,9 @@
 // import cache from 'memory-cache'
 import { Context } from 'koa'
 import axios from 'axios'
-import { User } from '../entity/user.entity'
-import { getMongoRepository } from 'typeorm'
+import { UserModel } from '../model/user.model'
 import { getToken } from './auth.controller'
-import { Menstrual } from '../entity/menstrual.entity'
+import { Menstrual } from '../model/menstrual.model'
 
 const appid = process.env.WECHAT_MP_APPID || ''
 const secret = process.env.WECHAT_MP_SECRET || ''
@@ -36,21 +35,19 @@ export async function login(ctx: Context) {
   }
 
   // 存储 session key 用于后续请求
-  const userRepo = getMongoRepository(User)
-  let user = await userRepo.findOne({ openId })
+  let user = await UserModel.findOne({ openId })
 
   // 没有就创建一个
   if (!user) {
-    user = userRepo.create({ openId })
-    user.menstrual = new Menstrual(user.id)
+    user = new UserModel({ openId })
+    user.menstrual = new Menstrual()
     ctx.status = 201
-    user.createdAt = new Date()
   } else {
     ctx.status = 200
   }
   user.sessionKey = sessionKey
   user.updatedAt = new Date()
-  await userRepo.replaceOne({ openId }, user, { upsert: true })
+  await user.save()
 
   const accessToken = getToken(user.id, openId, sessionKey)
   return (ctx.body = { accessToken })

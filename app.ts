@@ -3,6 +3,14 @@ import bodyParser from 'koa-bodyparser'
 import jwt from 'koa-jwt'
 import Koa from 'koa'
 import { router, protectedRouter } from './routes'
+import mongoose from 'mongoose'
+
+// Connect Database
+const uri = process.env.DB_URI || 'mongodb://localhost:27017/handnote'
+mongoose.connect(uri, {
+  useNewUrlParser: true,
+  useCreateIndex: true,
+})
 
 // Initial Application
 const app = new Koa()

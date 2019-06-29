@@ -7,13 +7,9 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "serve": "NODE_ENV=development pm2-dev server.ts",
-    "migration:build": "tsc migration/*.ts",
-    "migration:up": "typeorm migration:run",
-    "migration:down": "typeorm migration:revert"
+    "serve": "NODE_ENV=development pm2-dev server.ts"
   },
   "dependencies": {
-    "@types/jsonwebtoken": "^8.3.2",
     "axios": "^0.18.0",
     "dotenv": "^8.0.0",
     "jsonwebtoken": "^8.5.1",
@@ -23,11 +19,12 @@
     "koa-router": "^7.4.0",
     "lodash": "^4.17.11",
     "memory-cache": "^0.2.0",
-    "mongodb": "^3.2.7",
-    "reflect-metadata": "^0.1.13",
-    "typeorm": "^0.2.17"
+    "mongoose": "^5.6.2",
+    "typegoose": "^5.7.2"
   },
   "devDependencies": {
+    "@types/jsonwebtoken": "^8.3.2",
+    "@types/mongoose": "^5.5.6",
     "@types/dotenv": "^6.1.1",
     "@types/koa": "^2.0.48",
     "@types/koa-bodyparser": "^4.3.0",

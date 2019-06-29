@@ -1,16 +1,14 @@
 import { Context } from 'koa'
-import { getMongoRepository } from 'typeorm'
-import { User } from '../entity/user.entity'
-import { Memorial } from '../entity/memorial.entity'
+import { UserModel } from '../model/user.model'
+import { Memorial } from '../model/memorial.model'
 
 export async function createMemorial(ctx: Context) {
   const { userId } = ctx.state.user
   const { type, date, person } = ctx.request.body
-  const userRepo = getMongoRepository(User)
   const memorial = new Memorial(type, date, person)
 
-  await userRepo.updateOne(
-    { id: userId },
+  await UserModel.updateOne(
+    { _id: userId },
     {
       $push: {
         memorials: memorial,
@@ -18,4 +16,5 @@ export async function createMemorial(ctx: Context) {
     },
   )
   ctx.status = 201
+  ctx.body = { memorial }
 }
