@@ -18,3 +18,10 @@ export async function createMemorial(ctx: Context) {
   ctx.status = 201
   ctx.body = { memorial }
 }
+
+export async function getAllMemorials(ctx: Context) {
+  const { userId } = ctx.state.user
+  const user = await UserModel.findById(userId, 'memorials')
+  if (!user) return ctx.throw(400, '用户不存在')
+  ctx.body = user.memorials
+}
