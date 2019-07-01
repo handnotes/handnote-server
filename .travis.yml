@@ -1,0 +1,29 @@
+dist: trusty
+
+language: node_js
+node_js:
+  - node
+
+services:
+  - mongodb
+
+env:
+  - NODE_ENV=test
+
+addons:
+  sonarcloud:
+    organization: mutoe-github
+
+cache:
+  yarn: true
+
+install:
+  - yarn
+
+before_script:
+  - cp .env.template .env
+
+script:
+  - yarn lint
+  - yarn test
+  - sonar-scanner
