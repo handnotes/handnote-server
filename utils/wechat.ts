@@ -1,15 +1,15 @@
 import crypto from 'crypto'
 
 export class WXBizDataCrypt {
-  appId: string
-  sessionKey: string
+  public appId: string
+  public sessionKey: string
 
   constructor(appId: string, sessionKey: string) {
     this.appId = appId
     this.sessionKey = sessionKey
   }
 
-  decryptData(encryptedData: string, iv: string) {
+  public decryptData(encryptedData: string, iv: string) {
     // base64 decode
     const sessionKey = Buffer.from(this.sessionKey, 'base64')
     // const encryptedDataBuffer = Buffer.from(encryptedData, 'base64')

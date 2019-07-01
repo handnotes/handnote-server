@@ -1,6 +1,6 @@
 import { Context } from 'koa'
-import { UserModel } from '../model/user.model'
 import { Memorial } from '../model/memorial.model'
+import { UserModel } from '../model/user.model'
 
 export async function createMemorial(ctx: Context) {
   const { userId } = ctx.state.user

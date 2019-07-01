@@ -1,9 +1,9 @@
 import 'dotenv/config'
+import Koa from 'koa'
 import bodyParser from 'koa-bodyparser'
 import jwt from 'koa-jwt'
-import Koa from 'koa'
-import { router, protectedRouter } from './routes'
 import mongoose from 'mongoose'
+import { protectedRouter, router } from './routes'
 
 // Connect Database
 const uri = process.env.DB_URI || 'mongodb://localhost:27017/handnote'

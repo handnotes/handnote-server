@@ -7,7 +7,8 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "serve": "NODE_ENV=development pm2-dev server.ts"
+    "dev": "NODE_ENV=development pm2-dev server.ts",
+    "lint": "tslint -c tslint.json -p tsconfig.json"
   },
   "dependencies": {
     "axios": "^0.19.0",

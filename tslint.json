@@ -4,6 +4,7 @@
   "jsRules": {},
   "rules": {
     "prettier": true,
+    "no-console": [true, "log"],
     "object-literal-sort-keys": false,
     "curly": [true, "ignore-same-line"]
   },

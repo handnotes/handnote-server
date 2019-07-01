@@ -8,5 +8,5 @@ const HOSTNAME = process.env.NODE_ENV === 'development' ? '0.0.0.0' : '127.0.0.1
 
 // launch App
 app.listen(PORT, HOSTNAME, () => {
-  console.log(`koa is started on ${HOSTNAME}:${PORT}`)
+  console.info(`koa is started on ${HOSTNAME}:${PORT}`)
 })

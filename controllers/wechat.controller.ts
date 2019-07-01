@@ -1,9 +1,9 @@
 // import cache from 'memory-cache'
-import { Context } from 'koa'
 import axios from 'axios'
+import { Context } from 'koa'
+import { Menstrual } from '../model/menstrual.model'
 import { UserModel } from '../model/user.model'
 import { getToken } from './auth.controller'
-import { Menstrual } from '../model/menstrual.model'
 
 const appid = process.env.WECHAT_MP_APPID || ''
 const secret = process.env.WECHAT_MP_SECRET || ''
@@ -22,11 +22,11 @@ export async function login(ctx: Context) {
   try {
     const url = 'https://api.weixin.qq.com/sns/jscode2session'
     const params = { grant_type: 'authorization_code', appid, secret, js_code: code }
-    interface Returns {
+    interface IReturns {
       openid: string
       session_key: string
     }
-    const res = (await axios.get<Returns>(url, { params })).data
+    const res = (await axios.get<IReturns>(url, { params })).data
     openId = res.openid
     sessionKey = res.session_key
   } catch (error) {

@@ -1,6 +1,6 @@
-import { UserModel } from '../model/user.model'
 import { Context } from 'koa'
 import _ from 'lodash'
+import { UserModel } from '../model/user.model'
 
 export async function getUserData(ctx: Context) {
   const { userId } = ctx.state.user

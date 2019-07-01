@@ -7,14 +7,14 @@ export enum MenstrualStatus {
 
 export class Menstrual {
   @prop()
-  status: MenstrualStatus = MenstrualStatus.disabled
+  public status: MenstrualStatus = MenstrualStatus.disabled
 
   @prop()
-  lastDate: Date = new Date()
+  public lastDate: Date = new Date()
 
   @prop()
-  cycle: number = 28
+  public cycle: number = 28
 
   @prop()
-  duration: number = 6
+  public duration: number = 6
 }

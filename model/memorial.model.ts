@@ -7,15 +7,15 @@ export type MemorialType = 'love' | 'birthday'
 export class Memorial {
   /** 纪念日类型 */
   @prop()
-  type: MemorialType = 'love'
+  public type: MemorialType = 'love'
 
   /** 纪念日日期 */
   @prop()
-  date: Date = new Date()
+  public date: Date = new Date()
 
   /** 纪念日相关人物姓名 */
   @prop()
-  person: String = ''
+  public person: string = ''
 
   constructor(type: MemorialType, date: Date, person: string) {
     this.type = type

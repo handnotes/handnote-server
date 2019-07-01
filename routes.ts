@@ -1,10 +1,10 @@
-import Router from 'koa-router'
 import jwt from 'koa-jwt'
+import Router from 'koa-router'
 import { jwtSecret } from './controllers/auth.controller'
-import { login } from './controllers/wechat.controller'
+import { createMemorial, getAllMemorials } from './controllers/memorial.controller'
 import { setMenstrual } from './controllers/menstrual.controller'
 import { getUserData } from './controllers/user.controller'
-import { createMemorial, getAllMemorials } from './controllers/memorial.controller'
+import { login } from './controllers/wechat.controller'
 
 /** 无需登录即可访问的接口 */
 export const router = new Router({ prefix: '/api' })
