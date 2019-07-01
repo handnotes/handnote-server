@@ -10,7 +10,7 @@
     "serve": "NODE_ENV=development pm2-dev server.ts"
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.19.0",
     "dotenv": "^8.0.0",
     "jsonwebtoken": "^8.5.1",
     "koa": "^2.7.0",
@@ -23,14 +23,14 @@
     "typegoose": "^5.7.2"
   },
   "devDependencies": {
-    "@types/jsonwebtoken": "^8.3.2",
-    "@types/mongoose": "^5.5.6",
     "@types/dotenv": "^6.1.1",
+    "@types/jsonwebtoken": "^8.3.2",
     "@types/koa": "^2.0.48",
     "@types/koa-bodyparser": "^4.3.0",
     "@types/koa-router": "^7.0.40",
     "@types/lodash": "^4.14.134",
     "@types/memory-cache": "^0.2.0",
+    "@types/mongoose": "^5.5.6",
     "@types/node": "^12",
     "prettier": "^1.17.1",
     "ts-node": "^8.2.0",
