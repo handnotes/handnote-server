@@ -32,7 +32,7 @@
     "@types/lodash": "^4.14.134",
     "@types/memory-cache": "^0.2.0",
     "@types/mongoose": "^5.5.6",
-    "@types/node": "^12.6.3",
+    "@types/node": "^12.6.8",
     "prettier": "^1.17.1",
     "ts-node": "^8.2.0",
     "tsconfig-paths": "^3.8.0",
