@@ -20,7 +20,7 @@
     "koa-router": "^7.4.0",
     "lodash": "^4.17.15",
     "memory-cache": "^0.2.0",
-    "mongoose": "^5.6.5",
+    "mongoose": "^5.6.6",
     "typegoose": "^5.8.1"
   },
   "devDependencies": {
