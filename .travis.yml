@@ -25,4 +25,4 @@ before_script:
 
 script:
   - yarn lint
-  - sonar-scanner
+  - if [ "$TRAVIS_BRANCH" = "master" ]; then sonar-scanner; fi
