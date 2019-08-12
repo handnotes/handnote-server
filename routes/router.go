@@ -10,5 +10,10 @@ func SetupRouter() *gin.Engine {
 	router := gin.Default()
 	router.GET("/hello", apiV1.Hello)
 
+	v1 := router.Group("/v1")
+	{
+		v1.GET("/users", apiV1.GetUsers)
+	}
+
 	return router
 }
