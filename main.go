@@ -1,13 +1,10 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
-
-	api "e.coding.net/handnote/handnote/api/v1"
+	"e.coding.net/handnote/handnote/router"
 )
 
 func main() {
-	router := gin.Default()
-	router.GET("/hello", api.Hello)
+	router := router.InitRouter()
 	router.Run(":9090")
 }
