@@ -1,11 +1,14 @@
 package main
 
 import (
-	"e.coding.net/handnote/handnote/library"
+	"fmt"
+
+	"e.coding.net/handnote/handnote/library/setting"
 	"e.coding.net/handnote/handnote/routes"
 )
 
 func main() {
+	listenAddr := fmt.Sprintf("0.0.0.0:%d", setting.Server.HTTPPort)
 	router := routes.SetupRouter()
-	router.Run(":" + library.App.HTTPPort)
+	router.Run(listenAddr)
 }
