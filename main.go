@@ -1,10 +1,10 @@
 package main
 
 import (
-	"e.coding.net/handnote/handnote/router"
+	"e.coding.net/handnote/handnote/routes"
 )
 
 func main() {
-	router := router.InitRouter()
+	router := routes.SetupRouter()
 	router.Run(":9090")
 }
