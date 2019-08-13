@@ -22,16 +22,25 @@ type DatabaseSection struct {
 	Sslmode  string `yaml:"sslmode"`
 }
 
+// RedisSection app.yaml redis 配置.
+type RedisSection struct {
+	Addr     string `yaml:"addr"`
+	Password string `yaml:"password"`
+	DB       int    `yaml:"db"`
+}
+
 // 所有的配置项.
 var (
 	Server   ServerSection
 	Database DatabaseSection
+	Redis    RedisSection
 )
 
 // app.yaml 对应结构体.
 var config struct {
 	Server   ServerSection
 	Database DatabaseSection
+	Redis    RedisSection
 }
 
 // init 初始化加载配置文件.
@@ -44,6 +53,7 @@ func init() {
 	err = yaml.Unmarshal([]byte(file), &config)
 	Server = config.Server
 	Database = config.Database
+	Redis = config.Redis
 	if err != nil {
 		log.Fatalln(err)
 	}

@@ -13,6 +13,7 @@ func SetupRouter() *gin.Engine {
 	v1 := router.Group("/v1")
 	{
 		v1.GET("/users", apiV1.GetUsers)
+		v1.GET("/count", apiV1.RedisCount)
 	}
 
 	return router
