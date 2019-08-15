@@ -22,9 +22,7 @@ func init() {
 	if err != nil {
 		log.Fatalln(err)
 	}
-	if !dbConn.HasTable("users") {
-		dbConn.CreateTable(&User{})
-	}
+	dbConn.AutoMigrate(&User{})
 	dbConn.DB().SetMaxIdleConns(10)
 	dbConn.DB().SetMaxOpenConns(100)
 }
