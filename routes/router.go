@@ -14,6 +14,7 @@ func SetupRouter() *gin.Engine {
 	{
 		v1.GET("/users", apiV1.GetUsers)
 		v1.GET("/count", apiV1.RedisCount)
+		v1.GET("/sendEmail", apiV1.SendEmail)
 	}
 
 	return router
