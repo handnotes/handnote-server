@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 
-	"e.coding.net/handnote/handnote/library/redis"
+	"e.coding.net/handnote/handnote/pkg/redis"
 	"github.com/gin-gonic/gin"
 )
 

@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"e.coding.net/handnote/handnote/library/setting"
+	"e.coding.net/handnote/handnote/pkg/setting"
 	"e.coding.net/handnote/handnote/routes"
 )
 

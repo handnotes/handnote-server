@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 
-	"e.coding.net/handnote/handnote/library/setting"
+	"e.coding.net/handnote/handnote/pkg/setting"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres" // postgres driver.
 )
