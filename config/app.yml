@@ -13,3 +13,13 @@ redis:
   addr: 127.0.0.1:6379
   password:
   db:
+
+email:
+  from: no-reply@gethin.cn
+  from_subject: Handnote
+  subject: Handnote验证码
+
+code:
+  min: 100000
+  max: 999999
+  validity_period: 5

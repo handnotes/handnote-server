@@ -32,7 +32,7 @@ type RedisSection struct {
 
 // EmailSection app.yaml email 配置.
 type EmailSection struct {
-	From        string `yaml:"host"`
+	From        string `yaml:"from"`
 	FromSubject string `yaml:"from_subject"`
 	Subject     string `yaml:"subject"`
 }
@@ -70,12 +70,12 @@ func init() {
 		log.Fatalln(err)
 	}
 	err = yaml.Unmarshal([]byte(file), &config)
+	if err != nil {
+		log.Fatalln(err)
+	}
 	Server = config.Server
 	Database = config.Database
 	Redis = config.Redis
 	Email = config.Email
 	Code = config.Code
-	if err != nil {
-		log.Fatalln(err)
-	}
 }
