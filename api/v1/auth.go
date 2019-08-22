@@ -36,9 +36,25 @@ func SendEmail(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "send email success."})
 }
 
+// SignUpRequest 用户注册请求参数
+// swagger:parameters signUpRequest
+type SignUpRequest struct {
+	// in: body
+	Body SignUpForm
+}
+
+// SignUpResponse 用户注册响应参数
+// swagger:response signUpResponse
+type SignUpResponse struct {
+	// in: body
+	Body struct {
+		Message string      `json:"message"`
+		Data    interface{} `json:"data"`
+	}
+}
+
 // SignUpForm 用户注册表单
 type SignUpForm struct {
-	ID        uint      `json:"id"`
 	UserName  string    `json:"user_name" binding:"required"`
 	Phone     string    `json:"phone" binding:"required"`
 	Password  string    `json:"password" binding:"required"`
@@ -50,7 +66,14 @@ type SignUpForm struct {
 	Code      int       `json:"code"`
 }
 
-// SignUp 用户注册
+// SignUp swagger:route POST /signUp signUpRequest
+//
+// 用户注册
+//
+//      Schemes: http, https
+//
+//      Responses:
+//        200: signUpResponse
 func SignUp(c *gin.Context) {
 	var request SignUpForm
 	if err := c.Bind(&request); err != nil {
