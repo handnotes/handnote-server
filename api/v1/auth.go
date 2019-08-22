@@ -14,8 +14,8 @@ import (
 
 // SendEmailRequest 发送邮件请求结构
 type SendEmailRequest struct {
-	UserName string `json:"user_name"`
 	Email    string `json:"email" binding:"required,email"`
+	UserName string `json:"user_name"`
 }
 
 // SendEmail 发送邮件
@@ -43,9 +43,9 @@ type SignUpRequest struct {
 	Body SignUpForm
 }
 
-// SignUpResponse 用户注册响应参数
-// swagger:response signUpResponse
-type SignUpResponse struct {
+// SignResponse 用户注册/登录响应参数
+// swagger:response signResponse
+type SignResponse struct {
 	// in: body
 	Body struct {
 		Message string      `json:"message"`
@@ -55,10 +55,10 @@ type SignUpResponse struct {
 
 // SignUpForm 用户注册表单
 type SignUpForm struct {
-	UserName  string    `json:"user_name" binding:"required"`
-	Phone     string    `json:"phone" binding:"required"`
-	Password  string    `json:"password" binding:"required"`
 	Email     string    `json:"email" binding:"required,email"`
+	Phone     string    `json:"phone" binding:"required"`
+	UserName  string    `json:"user_name" binding:"required"`
+	Password  string    `json:"password" binding:"required"`
 	Address   string    `json:"address"`
 	Gender    int8      `json:"gender" binding:"required"`
 	Birth     time.Time `json:"birth"`
@@ -73,7 +73,7 @@ type SignUpForm struct {
 //      Schemes: http, https
 //
 //      Responses:
-//        200: signUpResponse
+//        200: signResponse
 func SignUp(c *gin.Context) {
 	var request SignUpForm
 	if err := c.Bind(&request); err != nil {
@@ -94,10 +94,10 @@ func SignUp(c *gin.Context) {
 		return
 	}
 	user := models.User{
-		UserName:  request.UserName,
 		Phone:     request.Phone,
-		Password:  request.Password,
 		Email:     request.Email,
+		UserName:  request.UserName,
+		Password:  request.Password,
 		Address:   request.Address,
 		Gender:    request.Gender,
 		Birth:     request.Birth,
@@ -106,6 +106,57 @@ func SignUp(c *gin.Context) {
 	if err := models.SaveUser(&user); err != nil {
 		fmt.Println(err)
 		c.JSON(http.StatusBadRequest, gin.H{"message": "创建用户失败"})
+		return
+	}
+	// 生成 token
+	fmt.Println(user.ID)
+	token, err := util.GenerateToken(user.ID, user.Email)
+	if err != nil {
+		fmt.Println(err)
+		c.JSON(http.StatusBadRequest, gin.H{"message": "生成token失败"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"token": token})
+}
+
+// SignInFormRequest 用户注册请求参数
+// swagger:parameters signInRequest
+type SignInFormRequest struct {
+	// in: body
+	Body SignInForm
+}
+
+// SignInForm 用户登录表单
+type SignInForm struct {
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
+
+// SignIn swagger:route POST /signIn signInRequest
+//
+// 用户登录
+//
+//      Schemes: http, https
+//
+//      Responses:
+//        200: signResponse
+func SignIn(c *gin.Context) {
+	var request SignInForm
+	if err := c.Bind(&request); err != nil {
+		fmt.Println(err)
+		c.JSON(http.StatusBadRequest, gin.H{"message": "验证失败"})
+		return
+	}
+	user, err := models.GetUserByEmail(request.Email)
+	if err != nil {
+		fmt.Println(err)
+		c.JSON(http.StatusBadRequest, gin.H{"message": "创建用户失败"})
+		return
+	}
+	// 检查 password
+	if ok := util.CheckPasswordHash(request.Password, user.Password); !ok {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "邮箱和密码匹配不上"})
 		return
 	}
 	// 生成 token

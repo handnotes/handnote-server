@@ -15,5 +15,6 @@ $ go run main.go
 # go-swagger generate api doc and serve it.
 $ brew tap go-swagger/go-swagger
 $ brew install go-swagger
-$ swagger serve https://handnote.coding.net/p/handnote/git/raw/server/swagger.yml
+$ swagger generate spec -o ./swagger.yml
+$ swagger serve ./swagger.yml
 ```
