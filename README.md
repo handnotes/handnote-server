@@ -6,7 +6,7 @@
 $ git clone -b server https://e.coding.net/handnote/handnote.git
 $ cd handnote
 $ source ./sendgrid.env
-$ go run main.go
+$ go run handnote.go
 # Then, visit the address http:/localhost:9090/hello.
 ```
 
