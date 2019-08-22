@@ -6,12 +6,12 @@ import (
 
 	"e.coding.net/handnote/handnote/pkg/setting"
 	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/postgres" // postgres driver.
+	_ "github.com/jinzhu/gorm/dialects/postgres" // postgres driver
 )
 
 var dbConn *gorm.DB
 
-// init 初始化数据库连接.
+// init 初始化数据库连接
 func init() {
 	var err error
 

@@ -9,7 +9,7 @@ import (
 	"github.com/sendgrid/sendgrid-go/helpers/mail"
 )
 
-// SendEmail send email from handnote to destination email address.
+// SendEmail 发送验证码邮件方法
 func SendEmail(email string, userName string, code int) error {
 	from := mail.NewEmail(setting.Email.FromSubject, setting.Email.From)
 	subject := setting.Email.Subject

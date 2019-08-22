@@ -5,7 +5,7 @@ import (
 	"github.com/go-redis/redis"
 )
 
-// RedisClient redis 连接对象.
+// RedisClient redis 连接对象
 var RedisClient *redis.Client
 
 func init() {
