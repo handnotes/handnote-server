@@ -51,6 +51,5 @@ func UpdateUser(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"message": "创建用户失败"})
 		return
 	}
-
 	c.JSON(http.StatusOK, gin.H{"data": user})
 }

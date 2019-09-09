@@ -116,7 +116,8 @@ func SignUp(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"message": "生成token失败"})
 		return
 	}
-
+	// 设置 header Authorization
+	c.Writer.Header().Set("Authorization", "Bearer "+token)
 	c.JSON(http.StatusOK, gin.H{"token": token})
 }
 
@@ -167,6 +168,7 @@ func SignIn(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"message": "生成token失败"})
 		return
 	}
-
+	// 设置 header Authorization
+	c.Writer.Header().Set("Authorization", "Bearer "+token)
 	c.JSON(http.StatusOK, gin.H{"token": token})
 }

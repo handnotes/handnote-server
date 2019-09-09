@@ -1,6 +1,7 @@
 package util
 
 import (
+	"errors"
 	"time"
 
 	"e.coding.net/handnote/handnote/pkg/setting"
@@ -9,23 +10,37 @@ import (
 
 var jwtSecret = []byte(setting.App.JwtSecret)
 
+// errors defined.
+var (
+	ErrTokenInvalid error = errors.New("Couldn't handle this token")
+)
+
 // Claims ...
 type Claims struct {
-	ID    uint   `json:"id"`
-	Email string `json:"email"`
+	ID          uint   `json:"id"`
+	Email       string `json:"email"`
+	ValidBefore int64  `json:"valid_before"`
 	jwt.StandardClaims
+}
+
+// GetTokenExpireTime 获取 token 过期时间
+func GetTokenExpireTime() int64 {
+	return time.Now().Add(30 * time.Second).Unix()
+}
+
+// GetRefreshTokenExpireTime 获取 refresh token 过期时间
+func GetRefreshTokenExpireTime() int64 {
+	return time.Now().Add(30 * 24 * time.Hour).Unix()
 }
 
 // GenerateToken 生成 token
 func GenerateToken(id uint, email string) (string, error) {
-	nowTime := time.Now()
-	expireTime := nowTime.Add(30 * 24 * time.Hour)
-
 	claims := Claims{
 		id,
 		email,
+		GetTokenExpireTime(),
 		jwt.StandardClaims{
-			ExpiresAt: expireTime.Unix(),
+			ExpiresAt: GetRefreshTokenExpireTime(),
 			Issuer:    "handnote",
 		},
 	}

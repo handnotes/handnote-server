@@ -3,6 +3,7 @@ package jwt
 import (
 	"fmt"
 	"net/http"
+	"time"
 
 	"e.coding.net/handnote/handnote/pkg/util"
 	"github.com/gin-gonic/gin"
@@ -30,6 +31,17 @@ func JWT() gin.HandlerFunc {
 			})
 			c.Abort()
 			return
+		}
+		// 判断 token 是否有效
+		if time.Now().Unix() > user.ValidBefore {
+			token, err := util.GenerateToken(user.ID, user.Email)
+			fmt.Println(token, err)
+			if err != nil {
+				c.JSON(http.StatusUnauthorized, gin.H{
+					"message": "StatusUnauthorized",
+				})
+			}
+			c.Writer.Header().Set("Authorization", "Bearer "+token)
 		}
 		c.Next()
 	}
