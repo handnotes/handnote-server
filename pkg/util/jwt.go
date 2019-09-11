@@ -1,7 +1,6 @@
 package util
 
 import (
-	"errors"
 	"time"
 
 	"e.coding.net/handnote/handnote/pkg/setting"
@@ -9,11 +8,6 @@ import (
 )
 
 var jwtSecret = []byte(setting.App.JwtSecret)
-
-// errors defined.
-var (
-	ErrTokenInvalid error = errors.New("Couldn't handle this token")
-)
 
 // Claims ...
 type Claims struct {
