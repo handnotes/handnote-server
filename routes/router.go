@@ -18,6 +18,8 @@ func SetupRouter() *gin.Engine {
 		v1.Use(jwt.JWT())
 		{
 			v1.PUT("/users/:id", apiV1.UpdateUser)
+			v1.GET("/memos", apiV1.ListMemo)
+			v1.PUT("/memos/:id", apiV1.UpdateMemo)
 		}
 	}
 

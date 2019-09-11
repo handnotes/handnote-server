@@ -23,6 +23,7 @@ func init() {
 		log.Fatalln(err)
 	}
 	dbConn.AutoMigrate(&User{})
+	dbConn.AutoMigrate(&Memo{})
 	dbConn.DB().SetMaxIdleConns(10)
 	dbConn.DB().SetMaxOpenConns(100)
 }
