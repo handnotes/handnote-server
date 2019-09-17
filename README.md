@@ -10,6 +10,18 @@ $ go run handnote.go
 # Then, visit the address http:/localhost:9090/hello.
 ```
 
+## Initial Postgres
+
+```bash
+$ brew install postgresql
+$ brew services start postgresql
+$ psql postgres
+
+CREATE ROLE handnote WITH LOGIN PASSWORD '123456';
+CREATE DATABASE handnote;
+ALTER ROLE handnote Superuser;
+```
+
 ## OpenAPI
 
 ```bash
