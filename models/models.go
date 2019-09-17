@@ -24,6 +24,7 @@ func init() {
 	}
 	dbConn.AutoMigrate(&User{})
 	dbConn.AutoMigrate(&Memo{})
+	dbConn.AutoMigrate(&Version{})
 	dbConn.DB().SetMaxIdleConns(10)
 	dbConn.DB().SetMaxOpenConns(100)
 }

@@ -5,6 +5,9 @@ import (
 	"time"
 )
 
+// MemoModule 备忘录/便笺表模块
+const MemoModule = "memo"
+
 // TableName 指定备忘录/便笺表表名
 func (Memo) TableName() string {
 	return "memos"

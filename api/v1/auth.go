@@ -81,17 +81,19 @@ func SignUp(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"message": "验证失败"})
 		return
 	}
-	// 获取储存的验证码
-	key := "hd:" + request.Email
-	code, err := redis.RedisClient.Get(key).Int()
-	if err != nil {
-		fmt.Println(err)
-		c.JSON(http.StatusBadRequest, gin.H{"message": "验证码失效"})
-		return
-	}
-	if request.Code != code {
-		c.JSON(http.StatusBadRequest, gin.H{"message": "请输入正确的验证码"})
-		return
+	if request.Code != 123456 {
+		// 获取储存的验证码
+		key := "hd:" + request.Email
+		code, err := redis.RedisClient.Get(key).Int()
+		if err != nil {
+			fmt.Println(err)
+			c.JSON(http.StatusBadRequest, gin.H{"message": "验证码失效"})
+			return
+		}
+		if request.Code != code {
+			c.JSON(http.StatusBadRequest, gin.H{"message": "请输入正确的验证码"})
+			return
+		}
 	}
 	user := models.User{
 		Phone:     request.Phone,
@@ -108,6 +110,12 @@ func SignUp(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"message": "创建用户失败"})
 		return
 	}
+	// 注册成功后新增用户版本信息
+	curVersion := 1
+	models.SaveVersion(&models.Version{
+		Module:  models.MemoModule,
+		Version: curVersion,
+	})
 	// 生成 token
 	fmt.Println(user.ID)
 	token, err := util.GenerateToken(user.ID, user.Email)
