@@ -13,12 +13,21 @@ import (
 )
 
 // SendEmailRequest 发送邮件请求结构
+// swagger:parameters sendEmailRequest
 type SendEmailRequest struct {
 	Email    string `json:"email" binding:"required,email"`
 	UserName string `json:"user_name"`
 }
 
-// SendEmail 发送邮件
+// SendEmail swagger:route GET /sendEmail sendEmailRequest
+//
+// 发送邮件
+//
+// 		Schemes: http, https
+//
+// 		Responses:
+//      	200: signResponse
+
 func SendEmail(c *gin.Context) {
 	var request SendEmailRequest
 	if err := c.Bind(&request); err != nil {
@@ -70,10 +79,10 @@ type SignUpForm struct {
 //
 // 用户注册
 //
-//      Schemes: http, https
+//     Schemes: http, https
 //
-//      Responses:
-//        200: signResponse
+//     Responses:
+//       200: signResponse
 func SignUp(c *gin.Context) {
 	var request SignUpForm
 	if err := c.Bind(&request); err != nil {

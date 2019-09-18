@@ -56,6 +56,25 @@ info:
   title: API.
   version: 0.0.1
 paths:
+  /sendEmail:
+    get:
+      description: 发送邮件
+      operationId: sendEmailRequest
+      parameters:
+      - in: query
+        name: email
+        type: string
+        x-go-name: Email
+      - in: query
+        name: user_name
+        type: string
+        x-go-name: UserName
+      responses:
+        "200":
+          $ref: '#/responses/signResponse'
+      schemes:
+      - http
+      - https
   /signIn:
     post:
       description: 用户登录
