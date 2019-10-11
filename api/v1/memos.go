@@ -11,8 +11,9 @@ import (
 
 // UpdateMemoForm 更新备忘录/便笺表单
 type UpdateMemoForm struct {
-	Name    string `json:"name"`
-	Content string `json:"content" binding:"required"`
+	Title    string `form:"title" json:"title"`
+	Content  string `form:"content" json:"content" binding:"required"`
+	Archived int    `form:"archived" json:"archived"`
 }
 
 // ListMemo 备忘录/便笺列表

@@ -12,14 +12,13 @@ import (
 
 // UpdateUserForm 更新用户表单
 type UpdateUserForm struct {
-	UserName  string    `json:"user_name" binding:"required"`
-	Phone     string    `json:"phone" binding:"required"`
-	Password  string    `json:"password" binding:"required"`
-	Email     string    `json:"email" binding:"required,email"`
-	Address   string    `json:"address"`
-	Gender    int8      `json:"gender" binding:"required"`
-	Birth     time.Time `json:"birth"`
-	AvatarURL string    `json:"avatar_url"`
+	Email     string    `form:"email" json:"email" binding:"required,email"`
+	UserName  string    `form:"user_name" json:"user_name" binding:"required"`
+	Password  string    `form:"password" json:"password" binding:"required"`
+	Phone     string    `form:"phone" json:"phone"`
+	Gender    int8      `form:"gender" json:"gender"`
+	Birth     time.Time `form:"birth" json:"birth"`
+	AvatarURL string    `form:"avatar_url" json:"avatar_url"`
 }
 
 // UpdateUser 创建用户

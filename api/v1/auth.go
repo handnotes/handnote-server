@@ -15,8 +15,8 @@ import (
 // SendEmailRequest 发送邮件请求结构
 // swagger:parameters sendEmailRequest
 type SendEmailRequest struct {
-	Email    string `json:"email" binding:"required,email"`
-	UserName string `json:"user_name"`
+	Email    string `form:"email" json:"email" binding:"required,email"`
+	UserName string `form:"user_name" json:"user_name"`
 }
 
 // SendEmail swagger:route GET /auth/sendEmail sendEmailRequest
@@ -64,15 +64,14 @@ type authResponse struct {
 
 // RegisterForm 用户注册表单
 type RegisterForm struct {
-	Email     string    `json:"email" binding:"required,email"`
-	Phone     string    `json:"phone" binding:"required"`
-	UserName  string    `json:"user_name" binding:"required"`
-	Password  string    `json:"password" binding:"required"`
-	Address   string    `json:"address"`
-	Gender    int8      `json:"gender" binding:"required"`
-	Birth     time.Time `json:"birth"`
-	AvatarURL string    `json:"avatar_url"`
-	Code      int       `json:"code"`
+	Email     string    `form:"email" json:"email" binding:"required,email"`
+	Phone     string    `form:"phone" json:"phone"`
+	UserName  string    `form:"user_name" json:"user_name" binding:"required"`
+	Password  string    `form:"password" json:"password" binding:"required"`
+	Gender    int8      `form:"gender" json:"gender"`
+	Birth     time.Time `form:"birth" json:"birth"`
+	AvatarURL string    `form:"avatar_url" json:"avatar_url"`
+	Code      int       `form:"code" json:"code"`
 }
 
 // Register swagger:route POST /auth/register registerRequest
@@ -147,8 +146,8 @@ type LoginFormRequest struct {
 
 // LoginForm 用户登录表单
 type LoginForm struct {
-	Email    string `json:"email"`
-	Password string `json:"password"`
+	Email    string `form:"email" json:"email"`
+	Password string `form:"password" json:"password"`
 }
 
 // Login swagger:route POST /auth/login loginRequest

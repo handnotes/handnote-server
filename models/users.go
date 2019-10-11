@@ -15,17 +15,16 @@ func (User) TableName() string {
 
 // User 定义用户表对应的结构
 type User struct {
-	ID        uint      `json:"id" gorm:"primary_key;not null;auto_increment"`
-	Phone     string    `json:"phone" gorm:"type:char(11);not null;default:''"`
-	Email     string    `json:"email" gorm:"size:50;not null;default:''"`
-	UserName  string    `json:"user_name" gorm:"size:50;not null;default:''"`
-	Password  string    `json:"password" gorm:"type:char(60);not null;default:''"`
-	Address   string    `json:"address" gorm:"size:200;not null;default:''"`
-	Gender    int8      `json:"gender" gorm:"not null;default:1"`
-	Birth     time.Time `json:"birth" gorm:"not null;type:date;default:'1970-01-01'"`
-	AvatarURL string    `json:"avatar_url" gorm:"size:200;not null;default:''"`
-	CreatedAt time.Time `json:"created_at" gorm:"not null;default:current_timestamp"`
-	UpdatedAt time.Time `json:"updated_at" gorm:"not null;default:current_timestamp"`
+	ID        uint      `form:"id" json:"id" gorm:"primary_key;not null;auto_increment"`
+	Phone     string    `form:"phone" json:"phone" gorm:"type:char(11);not null;unique;default:''"`
+	Email     string    `form:"email" json:"email" gorm:"size:50;unique_index;not null;default:''"`
+	UserName  string    `form:"user_name" json:"user_name" gorm:"size:50;not null;default:''"`
+	Password  string    `form:"password" json:"password" gorm:"type:char(60);not null;default:''"`
+	Gender    int8      `form:"gender" json:"gender" gorm:"not null;default:0"`
+	Birth     time.Time `form:"birth" json:"birth" gorm:"not null;type:date;default:'1990-01-01'"`
+	AvatarURL string    `form:"avatar_url" json:"avatar_url" gorm:"size:200;default:''"`
+	CreatedAt time.Time `form:"created_at" json:"created_at" gorm:"not null;default:current_timestamp"`
+	UpdatedAt time.Time `form:"updated_at" json:"updated_at" gorm:"not null;default:current_timestamp"`
 }
 
 // GetUserByEmail 通过邮箱获取单个用户
