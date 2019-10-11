@@ -128,7 +128,7 @@ func Register(c *gin.Context) {
 	}
 	// 注册成功后新增用户版本信息
 	curVersion := 1
-	models.SaveVersion(&models.Version{
+	_ = models.SaveVersion(&models.Version{
 		Module:  models.MemoModule,
 		Version: curVersion,
 	})

@@ -40,7 +40,7 @@ func (user *User) BeforeSave(scope *gorm.Scope) (err error) {
 	if user.Password, err = util.GeneratePassword(user.Password); err != nil {
 		return
 	}
-	scope.SetColumn("Password", user.Password)
+	_ = scope.SetColumn("Password", user.Password)
 	return
 }
 
