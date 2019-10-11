@@ -1,6 +1,7 @@
 package v1
 
 import (
+	"e.coding.net/handnote/handnote/pkg/util"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -18,7 +19,8 @@ type UpdateMemoForm struct {
 
 // ListMemo 备忘录/便笺列表
 func ListMemo(c *gin.Context) {
-	memos := models.GetMemoList()
+	user := c.MustGet(gin.AuthUserKey).(util.Claims)
+	memos := models.GetMemoList(user.ID)
 	c.JSON(http.StatusOK, gin.H{"data": memos})
 }
 
@@ -36,9 +38,10 @@ func UpdateMemo(c *gin.Context) {
 		return
 	}
 	memo := models.Memo{
-		ID:      uint(id),
-		Name:    request.Name,
-		Content: request.Content,
+		ID:       uint(id),
+		Title:    request.Title,
+		Content:  request.Content,
+		Archived: request.Archived,
 	}
 	if err := models.SaveMemo(&memo); err != nil {
 		fmt.Println(err)

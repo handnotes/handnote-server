@@ -40,7 +40,6 @@ func UpdateUser(c *gin.Context) {
 		Phone:     request.Phone,
 		Password:  request.Password,
 		Email:     request.Email,
-		Address:   request.Address,
 		Gender:    request.Gender,
 		Birth:     request.Birth,
 		AvatarURL: request.AvatarURL,

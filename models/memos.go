@@ -25,8 +25,8 @@ type Memo struct {
 }
 
 // GetMemoList 获取备忘录/便笺列表
-func GetMemoList() (memos []Memo) {
-	dbConn.Find(&memos)
+func GetMemoList(userId uint) (memos []Memo) {
+	dbConn.Find(&memos, "user_id=?", userId)
 	return
 }
 

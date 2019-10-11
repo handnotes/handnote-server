@@ -116,7 +116,6 @@ func Register(c *gin.Context) {
 		Email:     request.Email,
 		UserName:  request.UserName,
 		Password:  request.Password,
-		Address:   request.Address,
 		Gender:    request.Gender,
 		Birth:     request.Birth,
 		AvatarURL: request.AvatarURL,
