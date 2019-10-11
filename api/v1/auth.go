@@ -3,6 +3,7 @@ package v1
 import (
 	"fmt"
 	"net/http"
+	"reflect"
 	"time"
 
 	"e.coding.net/handnote/handnote/models"
@@ -103,6 +104,13 @@ func Register(c *gin.Context) {
 			return
 		}
 	}
+
+	// 去重
+	if existUser, _ := models.GetUserByEmail(request.Email); !reflect.DeepEqual(existUser, models.User{}) {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "邮箱已存在"})
+		return
+	}
+
 	user := models.User{
 		Phone:     request.Phone,
 		Email:     request.Email,
