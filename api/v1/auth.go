@@ -19,14 +19,14 @@ type SendEmailRequest struct {
 	UserName string `json:"user_name"`
 }
 
-// SendEmail swagger:route GET /sendEmail sendEmailRequest
+// SendEmail swagger:route GET /auth/sendEmail sendEmailRequest
 //
 // 发送邮件
 //
 // 		Schemes: http, https
 //
 // 		Responses:
-//      	200: signResponse
+//      	200: authResponse
 
 func SendEmail(c *gin.Context) {
 	var request SendEmailRequest
@@ -45,16 +45,16 @@ func SendEmail(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "send email success."})
 }
 
-// SignUpRequest 用户注册请求参数
-// swagger:parameters signUpRequest
-type SignUpRequest struct {
+// RegisterRequest 用户注册请求参数
+// swagger:parameters registerRequest
+type RegisterRequest struct {
 	// in: body
-	Body SignUpForm
+	Body RegisterForm
 }
 
-// SignResponse 用户注册/登录响应参数
-// swagger:response signResponse
-type SignResponse struct {
+// authResponse 用户注册/登录响应参数
+// swagger:response authResponse
+type authResponse struct {
 	// in: body
 	Body struct {
 		Message string      `json:"message"`
@@ -62,8 +62,8 @@ type SignResponse struct {
 	}
 }
 
-// SignUpForm 用户注册表单
-type SignUpForm struct {
+// RegisterForm 用户注册表单
+type RegisterForm struct {
 	Email     string    `json:"email" binding:"required,email"`
 	Phone     string    `json:"phone" binding:"required"`
 	UserName  string    `json:"user_name" binding:"required"`
@@ -75,16 +75,16 @@ type SignUpForm struct {
 	Code      int       `json:"code"`
 }
 
-// SignUp swagger:route POST /signUp signUpRequest
+// Register swagger:route POST /auth/register registerRequest
 //
 // 用户注册
 //
 //     Schemes: http, https
 //
 //     Responses:
-//       200: signResponse
-func SignUp(c *gin.Context) {
-	var request SignUpForm
+//       200: authResponse
+func Register(c *gin.Context) {
+	var request RegisterForm
 	if err := c.Bind(&request); err != nil {
 		fmt.Println(err)
 		c.JSON(http.StatusBadRequest, gin.H{"message": "验证失败"})
@@ -135,32 +135,32 @@ func SignUp(c *gin.Context) {
 	}
 	// 设置 header Authorization
 	c.Writer.Header().Set("Authorization", "Bearer "+token)
-	c.JSON(http.StatusOK, gin.H{"token": token})
+	c.JSON(http.StatusOK, gin.H{"access_token": token})
 }
 
-// SignInFormRequest 用户注册请求参数
-// swagger:parameters signInRequest
-type SignInFormRequest struct {
+// LoginFormRequest 用户注册请求参数
+// swagger:parameters loginRequest
+type LoginFormRequest struct {
 	// in: body
-	Body SignInForm
+	Body LoginForm
 }
 
-// SignInForm 用户登录表单
-type SignInForm struct {
+// LoginForm 用户登录表单
+type LoginForm struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
 }
 
-// SignIn swagger:route POST /signIn signInRequest
+// Login swagger:route POST /auth/login loginRequest
 //
 // 用户登录
 //
 //      Schemes: http, https
 //
 //      Responses:
-//        200: signResponse
-func SignIn(c *gin.Context) {
-	var request SignInForm
+//        200: authResponse
+func Login(c *gin.Context) {
+	var request LoginForm
 	if err := c.Bind(&request); err != nil {
 		fmt.Println(err)
 		c.JSON(http.StatusBadRequest, gin.H{"message": "验证失败"})
