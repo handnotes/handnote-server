@@ -27,7 +27,7 @@ type SendEmailRequest struct {
 // 		Schemes: http, https
 //
 // 		Responses:
-//      	200: authResponse
+//      	200: AuthResponse
 
 func SendEmail(c *gin.Context) {
 	var request SendEmailRequest
@@ -53,13 +53,12 @@ type RegisterRequest struct {
 	Body RegisterForm
 }
 
-// authResponse 用户注册/登录响应参数
-// swagger:response authResponse
-type authResponse struct {
+// AuthResponse 用户注册/登录响应参数
+// swagger:response AuthResponse
+type AuthResponse struct {
 	// in: body
 	Body struct {
-		Message string      `json:"message"`
-		Data    interface{} `json:"data"`
+		AccessToken string `json:"access_token"`
 	}
 }
 
@@ -82,12 +81,13 @@ type RegisterForm struct {
 //     Schemes: http, https
 //
 //     Responses:
-//       200: authResponse
+//       200: AuthResponse
+//    	 400: ResponseWithMessage
 func Register(c *gin.Context) {
 	var request RegisterForm
 	if err := c.Bind(&request); err != nil {
 		fmt.Println(err)
-		c.JSON(http.StatusBadRequest, gin.H{"message": "验证失败"})
+		c.JSON(http.StatusBadRequest, gin.H{"message": "表单校验失败"})
 		return
 	}
 	if request.Code != 123456 {
@@ -100,7 +100,7 @@ func Register(c *gin.Context) {
 			return
 		}
 		if request.Code != code {
-			c.JSON(http.StatusBadRequest, gin.H{"message": "请输入正确的验证码"})
+			c.JSON(http.StatusBadRequest, gin.H{"message": "验证码错误"})
 			return
 		}
 	}
@@ -164,7 +164,7 @@ type LoginForm struct {
 //      Schemes: http, https
 //
 //      Responses:
-//        200: authResponse
+//        200: AuthResponse
 func Login(c *gin.Context) {
 	var request LoginForm
 	if err := c.Bind(&request); err != nil {
