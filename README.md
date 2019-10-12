@@ -2,7 +2,7 @@
 
 ## Getting Start
 
-```bash
+``` bash
 $ git clone -b server https://e.coding.net/handnote/handnote.git
 $ cd handnote
 $ source ./sendgrid.env
@@ -12,7 +12,7 @@ $ go run handnote.go
 
 ## Initial Postgres
 
-```bash
+``` bash
 $ brew install postgresql
 $ brew services start postgresql
 $ psql postgres
@@ -24,7 +24,7 @@ ALTER ROLE handnote Superuser;
 
 ## Initial Redis
 
-```bash
+``` bash
 $ brew install redis
 $ brew services start redis
 $ redis-cli
@@ -34,10 +34,16 @@ keys *
 
 ## OpenAPI
 
-```bash
+``` bash
 # go-swagger generate api doc and serve it.
 $ brew tap go-swagger/go-swagger
 $ brew install go-swagger
 $ swagger generate spec -o ./swagger.yml
 $ swagger serve ./swagger.yml
+```
+
+## Test
+``` bash
+# set test env
+$ GIN_MODE=test go test
 ```

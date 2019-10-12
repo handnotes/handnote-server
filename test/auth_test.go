@@ -1,11 +1,12 @@
 package test
 
 import (
-	v1 "e.coding.net/handnote/handnote/api/v1"
 	"encoding/json"
-	"github.com/stretchr/testify/assert"
 	"net/url"
 	"testing"
+
+	v1 "e.coding.net/handnote/handnote/api/v1"
+	"github.com/stretchr/testify/assert"
 )
 
 func init() {

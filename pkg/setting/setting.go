@@ -1,11 +1,15 @@
 package setting
 
 import (
+	"fmt"
 	"io/ioutil"
 	"log"
+	"os"
 	"path"
 	"runtime"
 	"time"
+
+	"github.com/gin-gonic/gin"
 
 	"gopkg.in/yaml.v2"
 )
@@ -78,9 +82,15 @@ func getCurrentPath() string {
 
 // init 初始化加载配置文件
 func init() {
+	var envPath string
+	if os.Getenv(gin.EnvGinMode) != gin.TestMode {
+		envPath = path.Join(getCurrentPath(), "../../config/app.yml")
+	} else {
+		envPath = path.Join(getCurrentPath(), "../../config/app_test.yml")
+	}
+	fmt.Printf("Load config file '%s'\n", envPath)
 	// 解析 app.yml
-	path := path.Join(getCurrentPath(), "../../config/app.yml")
-	file, err := ioutil.ReadFile(path)
+	file, err := ioutil.ReadFile(envPath)
 	if err != nil {
 		log.Fatalln(err)
 	}
