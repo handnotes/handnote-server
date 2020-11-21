@@ -1,13 +1,12 @@
 package v1
 
 import (
-	"e.coding.net/handnote/handnote/pkg/util"
 	"fmt"
+	"github.com/gin-gonic/gin"
+	"github.com/handnotes/handnote-server/models"
+	"github.com/handnotes/handnote-server/pkg/util"
 	"net/http"
 	"strconv"
-
-	"e.coding.net/handnote/handnote/models"
-	"github.com/gin-gonic/gin"
 )
 
 // UpdateMemoForm 更新备忘录/便笺表单

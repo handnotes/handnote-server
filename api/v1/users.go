@@ -6,8 +6,8 @@ import (
 	"strconv"
 	"time"
 
-	"e.coding.net/handnote/handnote/models"
 	"github.com/gin-gonic/gin"
+	"github.com/handnotes/handnote-server/models"
 )
 
 // UpdateUserForm 更新用户表单

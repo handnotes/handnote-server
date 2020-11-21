@@ -2,10 +2,16 @@ package test
 
 import (
 	"encoding/json"
+	"net/http"
 	"net/url"
+	"os"
 	"testing"
 
-	v1 "e.coding.net/handnote/handnote/api/v1"
+	"github.com/DATA-DOG/go-sqlmock"
+	"github.com/gin-gonic/gin"
+	v1 "github.com/handnotes/handnote-server/api/v1"
+	"github.com/handnotes/handnote-server/models"
+	"github.com/jinzhu/gorm"
 	"github.com/stretchr/testify/assert"
 )
 

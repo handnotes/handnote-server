@@ -1,8 +1,8 @@
 package redis
 
 import (
-	"e.coding.net/handnote/handnote/pkg/setting"
 	"github.com/go-redis/redis"
+	"github.com/handnotes/handnote-server/pkg/setting"
 )
 
 // RedisClient redis 连接对象

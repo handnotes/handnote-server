@@ -1,13 +1,17 @@
 package test
 
 import (
-	"e.coding.net/handnote/handnote/routes"
-	"github.com/gin-gonic/gin"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
 	"strings"
+
+	"github.com/DATA-DOG/go-sqlmock"
+	"github.com/gin-gonic/gin"
+	"github.com/handnotes/handnote-server/models"
+	"github.com/handnotes/handnote-server/routes"
+	"github.com/jinzhu/gorm"
 )
 
 var (

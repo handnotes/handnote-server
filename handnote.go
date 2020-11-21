@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 
-	"e.coding.net/handnote/handnote/pkg/setting"
-	"e.coding.net/handnote/handnote/routes"
+	"github.com/handnotes/handnote-server/pkg/setting"
+	"github.com/handnotes/handnote-server/routes"
 )
 
 func main() {

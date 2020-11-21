@@ -6,11 +6,11 @@ import (
 	"reflect"
 	"time"
 
-	"e.coding.net/handnote/handnote/models"
-	"e.coding.net/handnote/handnote/pkg/redis"
-	"e.coding.net/handnote/handnote/pkg/setting"
-	"e.coding.net/handnote/handnote/pkg/util"
 	"github.com/gin-gonic/gin"
+	"github.com/handnotes/handnote-server/models"
+	"github.com/handnotes/handnote-server/pkg/redis"
+	"github.com/handnotes/handnote-server/pkg/setting"
+	"github.com/handnotes/handnote-server/pkg/util"
 )
 
 // SendEmailRequest 发送邮件请求结构
@@ -35,7 +35,6 @@ func SendEmail(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"message": "please confirm the email is valid."})
 		return
 	}
-	fmt.Println(request)
 	code := util.RandomCode()
 	if err := util.SendEmail(request.Email, request.UserName, code); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"message": "send email fail."})
@@ -132,7 +131,6 @@ func Register(c *gin.Context) {
 		Version: curVersion,
 	})
 	// 生成 token
-	fmt.Println(user.ID)
 	token, err := util.GenerateToken(user.ID, user.Email)
 	if err != nil {
 		fmt.Println(err)
@@ -184,7 +182,6 @@ func Login(c *gin.Context) {
 		return
 	}
 	// 生成 token
-	fmt.Println(user.ID)
 	token, err := util.GenerateToken(user.ID, user.Email)
 	if err != nil {
 		fmt.Println(err)

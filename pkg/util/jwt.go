@@ -3,8 +3,8 @@ package util
 import (
 	"time"
 
-	"e.coding.net/handnote/handnote/pkg/setting"
 	"github.com/dgrijalva/jwt-go"
+	"github.com/handnotes/handnote-server/pkg/setting"
 )
 
 var jwtSecret = []byte(setting.App.JwtSecret)

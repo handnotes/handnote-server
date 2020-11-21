@@ -1,9 +1,9 @@
 package routes
 
 import (
-	apiV1 "e.coding.net/handnote/handnote/api/v1"
-	"e.coding.net/handnote/handnote/middleware/jwt"
 	"github.com/gin-gonic/gin"
+	apiV1 "github.com/handnotes/handnote-server/api/v1"
+	"github.com/handnotes/handnote-server/middleware/jwt"
 )
 
 // SetupRouter 设置路由

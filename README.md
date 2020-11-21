@@ -3,23 +3,16 @@
 ## Getting Start
 
 ``` bash
-$ git clone -b server https://e.coding.net/handnote/handnote.git
-$ cd handnote
-$ source ./sendgrid.env
-$ go run handnote.go
-# Then, visit the address http:/localhost:9090/hello.
+source ./sendgrid.env
+go run handnote.go
 ```
+
+Then, visit the address http://localhost:9090/hello
 
 ## Initial Postgres
 
 ``` bash
-$ brew install postgresql
-$ brew services start postgresql
-$ psql postgres
-
-CREATE ROLE handnote WITH LOGIN PASSWORD '123456';
-CREATE DATABASE handnote;
-ALTER ROLE handnote Superuser;
+docker-compose up -d postgres
 ```
 
 ## Initial Redis

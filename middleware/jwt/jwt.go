@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"time"
 
-	"e.coding.net/handnote/handnote/pkg/util"
 	"github.com/gin-gonic/gin"
+	"github.com/handnotes/handnote-server/pkg/util"
 )
 
 // JWT is jwt middleware

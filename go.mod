@@ -1,9 +1,10 @@
-module e.coding.net/handnote/handnote
+module github.com/handnotes/handnote-server
 
 go 1.12
 
 require (
 	github.com/0xAX/notificator v0.0.0-20181105090803-d81462e38c21 // indirect
+	github.com/DATA-DOG/go-sqlmock v1.3.3
 	github.com/codegangsta/envy v0.0.0-20141216192214-4b78388c8ce4 // indirect
 	github.com/codegangsta/gin v0.0.0-20171026143024-cafe2ce98974 // indirect
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
@@ -13,6 +14,7 @@ require (
 	github.com/kr/pretty v0.1.0 // indirect
 	github.com/lib/pq v1.2.0 // indirect
 	github.com/mattn/go-shellwords v1.0.6 // indirect
+	github.com/selvatico/go-mocket v1.0.7 // indirect
 	github.com/sendgrid/rest v2.4.1+incompatible // indirect
 	github.com/sendgrid/sendgrid-go v3.5.0+incompatible
 	github.com/stretchr/testify v1.3.0
