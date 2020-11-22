@@ -12,9 +12,8 @@ require (
 	github.com/go-openapi/swag v0.19.12 // indirect
 	github.com/go-redis/redis v6.15.2+incompatible
 	github.com/jinzhu/gorm v1.9.10
+	github.com/joho/godotenv v1.3.0
 	github.com/lib/pq v1.2.0 // indirect
-	github.com/sendgrid/rest v2.4.1+incompatible // indirect
-	github.com/sendgrid/sendgrid-go v3.5.0+incompatible
 	github.com/stretchr/testify v1.6.1
 	github.com/swaggo/files v0.0.0-20190704085106-630677cd5c14
 	github.com/swaggo/gin-swagger v1.3.0

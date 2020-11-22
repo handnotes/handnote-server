@@ -2,29 +2,23 @@ package util
 
 import (
 	"fmt"
-	"os"
-
 	"github.com/handnotes/handnote-server/pkg/setting"
-	"github.com/sendgrid/sendgrid-go"
-	"github.com/sendgrid/sendgrid-go/helpers/mail"
+	"net/smtp"
+	"os"
+	"strings"
 )
 
 // SendEmail 发送验证码邮件方法
 func SendEmail(email string, userName string, code int) error {
-	from := mail.NewEmail(setting.Email.FromSubject, setting.Email.From)
-	subject := setting.Email.Subject
-	to := mail.NewEmail(userName, email)
-	plainTextContent := setting.Email.Subject
+	var host, port string
+	smtpServer := os.Getenv("SMTP_SERVER")
+	Unpack(strings.Split(smtpServer, ":"), &host, &port)
+
+	auth := smtp.PlainAuth("", setting.Email.From, os.Getenv("SMTP_PASSWORD"), host)
+	contentType := "Content-Type: text/plain; charset=UTF-8"
+
 	htmlContent := fmt.Sprintf("<p>尊敬的Handnote用户%s：</p><p>您好!</p><p>您的验证码是：%d。</p>", userName, code)
-	message := mail.NewSingleEmail(from, subject, to, plainTextContent, htmlContent)
-	fmt.Println(os.Getenv("SENDGRID_API_KEY"))
-	client := sendgrid.NewSendClient(os.Getenv("SENDGRID_API_KEY"))
-	response, err := client.Send(message)
-	if err != nil {
-		return err
-	}
-	fmt.Println(response.StatusCode)
-	fmt.Println(response.Body)
-	fmt.Println(response.Headers)
-	return nil
+	msg := []byte("To: " + email + "\r\nFrom: " + setting.Email.From + "\r\nSubject: " + setting.Email.Subject + "\r\n" + contentType + "\r\n\r\n" + htmlContent)
+	err := smtp.SendMail(smtpServer, auth, setting.Email.From, []string{email}, msg)
+	return err
 }

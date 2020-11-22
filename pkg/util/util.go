@@ -41,3 +41,9 @@ func CheckPasswordHash(password, hash string) bool {
 	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
 	return err == nil
 }
+
+func Unpack(s []string, vars ...*string) {
+	for i, str := range s {
+		*vars[i] = str
+	}
+}

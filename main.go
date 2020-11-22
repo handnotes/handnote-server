@@ -5,6 +5,7 @@ import (
 	"github.com/handnotes/handnote-server/docs"
 	"github.com/handnotes/handnote-server/pkg/setting"
 	"github.com/handnotes/handnote-server/routes"
+	_ "github.com/joho/godotenv/autoload"
 )
 
 func main() {

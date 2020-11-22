@@ -2,3 +2,4 @@ go.mod
 dump.rdb
 coverage.txt
 .idea
+.env

@@ -18,7 +18,7 @@ redis:
   db: 0
 
 email:
-  from: no-reply@gethin.cn
+  from: no-reply@mutoe.com
   from_subject: Handnote
   subject: Handnote验证码
 
