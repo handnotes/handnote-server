@@ -3,6 +3,7 @@
 ## Getting Start
 
 ``` bash
+cp .env.example .env
 ./start.sh
 ```
 
@@ -21,6 +22,10 @@ docker-compose up -d postgres
 ``` bash
 docker-compose up -d redis
 ```
+
+## Setup SMTP service
+
+Modify the SMTP server and password in `.env` file
 
 ## Test
 ``` bash

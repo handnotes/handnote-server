@@ -36,7 +36,7 @@ func SendEmail(c *gin.Context) {
 		return
 	}
 	code := util.RandomCode()
-	if err := util.SendEmail(request.Email, request.UserName, code); err != nil {
+	if err := util.SendEmail(request.Email, code); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "send email fail."})
 		return
 	}
