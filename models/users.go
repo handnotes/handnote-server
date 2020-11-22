@@ -1,7 +1,6 @@
 package models
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/handnotes/handnote-server/pkg/util"
@@ -16,7 +15,7 @@ func (User) TableName() string {
 // User 定义用户表对应的结构
 type User struct {
 	ID        uint      `form:"id" json:"id" gorm:"primary_key;not null;auto_increment"`
-	Phone     string    `form:"phone" json:"phone" gorm:"type:char(11);unique;default:''"`
+	Phone     string    `form:"phone" json:"phone" gorm:"type:char(11);default:''"`
 	Email     string    `form:"email" json:"email" gorm:"size:50;unique_index;not null;default:''"`
 	UserName  string    `form:"user_name" json:"user_name" gorm:"size:50;not null;default:''"`
 	Password  string    `form:"password" json:"password" gorm:"type:char(60);not null;default:''"`
@@ -49,6 +48,5 @@ func SaveUser(user *User) error {
 	if err := DB.Save(user).Error; err != nil {
 		return err
 	}
-	fmt.Println(user)
 	return nil
 }
