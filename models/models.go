@@ -4,9 +4,11 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/handnotes/handnote-server/pkg/setting"
+	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres" // postgres driver
+
+	"github.com/handnotes/handnote-server/pkg/setting"
 )
 
 var DB *gorm.DB
@@ -22,9 +24,13 @@ func init() {
 	if err != nil {
 		log.Fatalln(err)
 	}
+
+	DB.LogMode(gin.Mode() != gin.ReleaseMode)
+
 	DB.AutoMigrate(&User{})
 	DB.AutoMigrate(&Memo{})
 	DB.AutoMigrate(&Version{})
+
 	DB.DB().SetMaxIdleConns(10)
 	DB.DB().SetMaxOpenConns(100)
 }

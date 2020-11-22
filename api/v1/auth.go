@@ -85,7 +85,7 @@ func Register(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"message": "表单校验失败"})
 		return
 	}
-	if gin.Mode() != gin.DebugMode && request.Code != 123456 {
+	if gin.Mode() == gin.ReleaseMode || request.Code != 123456 {
 		// 获取储存的验证码
 		key := "hd:" + request.Email
 		code, err := redis.RedisClient.Get(key).Int()

@@ -4,8 +4,9 @@ import (
 	"math/rand"
 	"time"
 
-	"github.com/handnotes/handnote-server/pkg/setting"
 	"golang.org/x/crypto/bcrypt"
+
+	"github.com/handnotes/handnote-server/pkg/setting"
 )
 
 func init() {
@@ -30,13 +31,11 @@ func RandomCode() int {
 	return rand.Intn(max-min) + min
 }
 
-// GeneratePassword 生成加密密码
-func GeneratePassword(password string) (string, error) {
-	bytes, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
-	return string(bytes), err
+func GeneratePassword(password string) string {
+	bytes, _ := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	return string(bytes)
 }
 
-// CheckPasswordHash 检查密码是否正确
 func CheckPasswordHash(password, hash string) bool {
 	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
 	return err == nil

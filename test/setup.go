@@ -9,13 +9,15 @@ import (
 
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/gin-gonic/gin"
+	"github.com/jinzhu/gorm"
+
 	"github.com/handnotes/handnote-server/models"
 	"github.com/handnotes/handnote-server/routes"
-	"github.com/jinzhu/gorm"
 )
 
 var (
-	router *gin.Engine
+	router     *gin.Engine
+	ApiBaseUrl = "/api/v1"
 )
 
 func InitialRouter() {
@@ -26,18 +28,10 @@ func SetupTestDB() (gormDB *gorm.DB, mock sqlmock.Sqlmock) {
 	db, mock, _ := sqlmock.New()
 	gormDB, _ = gorm.Open("sqlite3", db)
 
+	gormDB.LogMode(true)
 	models.DB = gormDB
-	return
-}
 
-func GenerateUserSeeder() {
-	user := models.User{
-		ID:       1,
-		Email:    "root@admin.com",
-		UserName: "root",
-		Password: "123456",
-	}
-	_ = models.SaveUser(&user)
+	return
 }
 
 func HttpGet(uri string) (code int, body []byte) {

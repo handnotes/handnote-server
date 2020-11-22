@@ -3,8 +3,9 @@ package models
 import (
 	"time"
 
-	"github.com/handnotes/handnote-server/pkg/util"
 	"github.com/jinzhu/gorm"
+
+	"github.com/handnotes/handnote-server/pkg/util"
 )
 
 // TableName 指定用户表表名
@@ -36,9 +37,7 @@ func GetUserByEmail(email string) (user User, err error) {
 
 // BeforeSave ...
 func (user *User) BeforeSave(scope *gorm.Scope) (err error) {
-	if user.Password, err = util.GeneratePassword(user.Password); err != nil {
-		return
-	}
+	user.Password = util.GeneratePassword(user.Password)
 	_ = scope.SetColumn("Password", user.Password)
 	return
 }
