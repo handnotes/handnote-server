@@ -13,3 +13,9 @@ services:
       - '5432:5432'
     volumes:
       - ./docker_postgres_init.sql:/docker-entrypoint-initdb.d/docker_postgres_init.sql
+
+  redis:
+    container_name: redis
+    image: redis
+    ports:
+      - '6379:6379'

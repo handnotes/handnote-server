@@ -1,0 +1,134 @@
+definitions:
+  v1.AuthResponse:
+    properties:
+      body:
+        description: 'in: body'
+        properties:
+          access_token:
+            type: string
+        type: object
+    type: object
+  v1.LoginForm:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+  v1.RegisterRequest:
+    properties:
+      avatar_url:
+        type: string
+      birth:
+        type: string
+      code:
+        type: integer
+      email:
+        example: mutoe@foxmail.com
+        type: string
+      gender:
+        type: integer
+      password:
+        type: string
+      phone:
+        type: string
+      user_name:
+        type: string
+    required:
+    - email
+    - password
+    - user_name
+    type: object
+  v1.ResponseWithMessage:
+    properties:
+      message:
+        type: string
+    type: object
+  v1.SendEmailRequest:
+    properties:
+      email:
+        example: mutoe@foxmail.com
+        type: string
+      user_name:
+        type: string
+    required:
+    - email
+    type: object
+info:
+  contact: {}
+paths:
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      - multipart/form-data
+      parameters:
+      - description: request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/v1.LoginForm'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/v1.AuthResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v1.ResponseWithMessage'
+      summary: Login
+      tags:
+      - Auth
+  /auth/register:
+    post:
+      consumes:
+      - application/json
+      - multipart/form-data
+      parameters:
+      - description: RegisterRequest
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/v1.RegisterRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/v1.AuthResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v1.ResponseWithMessage'
+      summary: Register
+      tags:
+      - Auth
+  /auth/sendEmail:
+    post:
+      consumes:
+      - application/json
+      - multipart/form-data
+      description: get string by ID
+      parameters:
+      - description: request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/v1.SendEmailRequest'
+      produces:
+      - application/json
+      responses:
+        "201": {}
+        "400": {}
+        "500": {}
+      summary: Send email
+      tags:
+      - Auth
+swagger: "2.0"

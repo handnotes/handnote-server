@@ -13,22 +13,22 @@ import (
 	"github.com/handnotes/handnote-server/pkg/util"
 )
 
-// SendEmailRequest 发送邮件请求结构
-// swagger:parameters sendEmailRequest
 type SendEmailRequest struct {
-	Email    string `form:"email" json:"email" binding:"required,email"`
+	Email    string `form:"email" json:"email" binding:"required,email" example:"mutoe@foxmail.com"`
 	UserName string `form:"user_name" json:"user_name"`
 }
 
-// SendEmail swagger:route GET /auth/sendEmail sendEmailRequest
-//
-// 发送邮件
-//
-// 		Schemes: http, https
-//
-// 		Responses:
-//      	200: AuthResponse
-
+// SendEmail godoc
+// @Summary Send email
+// @Description get string by ID
+// @Tags Auth
+// @Accept json,mpfd
+// @Produce json
+// @Param request body SendEmailRequest true "request"
+// @Success 201
+// @Failure 400
+// @Failure 500
+// @Router /auth/sendEmail [post]
 func SendEmail(c *gin.Context) {
 	var request SendEmailRequest
 	if err := c.Bind(&request); err != nil {
@@ -37,19 +37,12 @@ func SendEmail(c *gin.Context) {
 	}
 	code := util.RandomCode()
 	if err := util.SendEmail(request.Email, request.UserName, code); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"message": "send email fail."})
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "send email fail."})
 		return
 	}
 	key := "hd:" + request.Email
 	redis.RedisClient.Set(key, code, setting.Code.ValidityPeriod*time.Minute)
-	c.JSON(http.StatusOK, gin.H{"message": "send email success."})
-}
-
-// RegisterRequest 用户注册请求参数
-// swagger:parameters registerRequest
-type RegisterRequest struct {
-	// in: body
-	Body RegisterForm
+	c.JSON(http.StatusCreated, gin.H{"message": "send email success."})
 }
 
 // AuthResponse 用户注册/登录响应参数
@@ -61,9 +54,9 @@ type AuthResponse struct {
 	}
 }
 
-// RegisterForm 用户注册表单
-type RegisterForm struct {
-	Email     string    `form:"email" json:"email" binding:"required,email"`
+// RegisterRequest 用户注册表单
+type RegisterRequest struct {
+	Email     string    `form:"email" json:"email" binding:"required,email" example:"mutoe@foxmail.com"`
 	Phone     string    `form:"phone" json:"phone"`
 	UserName  string    `form:"user_name" json:"user_name" binding:"required"`
 	Password  string    `form:"password" json:"password" binding:"required"`
@@ -73,17 +66,17 @@ type RegisterForm struct {
 	Code      int       `form:"code" json:"code"`
 }
 
-// Register swagger:route POST /auth/register registerRequest
-//
-// 用户注册
-//
-//     Schemes: http, https
-//
-//     Responses:
-//       200: AuthResponse
-//    	 400: ResponseWithMessage
+// Register godoc
+// @Summary Register
+// @Tags Auth
+// @Accept json,mpfd
+// @Produce json
+// @Param request body RegisterRequest true "RegisterRequest"
+// @Success 200 {object} AuthResponse
+// @Failure 400 {object} ResponseWithMessage
+// @Router /auth/register [post]
 func Register(c *gin.Context) {
-	var request RegisterForm
+	var request RegisterRequest
 	if err := c.Bind(&request); err != nil {
 		fmt.Println(err)
 		c.JSON(http.StatusBadRequest, gin.H{"message": "表单校验失败"})
@@ -142,27 +135,25 @@ func Register(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"access_token": token})
 }
 
-// LoginFormRequest 用户注册请求参数
-// swagger:parameters loginRequest
 type LoginFormRequest struct {
 	// in: body
 	Body LoginForm
 }
 
-// LoginForm 用户登录表单
 type LoginForm struct {
 	Email    string `form:"email" json:"email"`
 	Password string `form:"password" json:"password"`
 }
 
-// Login swagger:route POST /auth/login loginRequest
-//
-// 用户登录
-//
-//      Schemes: http, https
-//
-//      Responses:
-//        200: AuthResponse
+// Login godoc
+// @Summary Login
+// @Tags Auth
+// @Accept json,mpfd
+// @Produce  json
+// @Param request body LoginForm true "request"
+// @Success 200 {object} AuthResponse
+// @Failure 400 {object} ResponseWithMessage
+// @Router /auth/login [post]
 func Login(c *gin.Context) {
 	var request LoginForm
 	if err := c.Bind(&request); err != nil {
@@ -185,7 +176,7 @@ func Login(c *gin.Context) {
 	token, err := util.GenerateToken(user.ID, user.Email)
 	if err != nil {
 		fmt.Println(err)
-		c.JSON(http.StatusBadRequest, gin.H{"message": "生成token失败"})
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "生成token失败"})
 		return
 	}
 	// 设置 header Authorization
