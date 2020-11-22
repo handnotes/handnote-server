@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"net/url"
+	"os"
 	"strings"
 
 	"github.com/DATA-DOG/go-sqlmock"
@@ -28,7 +29,7 @@ func SetupTestDB() (gormDB *gorm.DB, mock sqlmock.Sqlmock) {
 	db, mock, _ := sqlmock.New()
 	gormDB, _ = gorm.Open("sqlite3", db)
 
-	gormDB.LogMode(true)
+	gormDB.LogMode(os.Getenv("DEBUG_SQL") == "true")
 	models.DB = gormDB
 
 	return

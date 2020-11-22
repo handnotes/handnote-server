@@ -3,3 +3,4 @@ dump.rdb
 coverage.txt
 .idea
 config/*.local.yml
+bin
