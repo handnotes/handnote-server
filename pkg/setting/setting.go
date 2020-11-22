@@ -1,6 +1,7 @@
 package setting
 
 import (
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -10,12 +11,12 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-
-	"gopkg.in/yaml.v2"
+	"gopkg.in/yaml.v3"
 )
 
 // AppSection app.yaml server 配置
 type AppSection struct {
+	Name      string `yaml:"name"`
 	JwtSecret string `yaml:"jwt_secret"`
 }
 
@@ -43,9 +44,9 @@ type RedisSection struct {
 
 // EmailSection app.yaml email 配置
 type EmailSection struct {
-	From        string `yaml:"from"`
-	FromSubject string `yaml:"from_subject"`
-	Subject     string `yaml:"subject"`
+	SmtpServer   string `yaml:"smtp_server"`
+	SmtpPassword string `yaml:"smtp_password"`
+	From         string `yaml:"from"`
 }
 
 // CodeSection app.yaml code 配置
@@ -80,24 +81,62 @@ func getCurrentPath() string {
 	return path.Dir(filename)
 }
 
+func ReadValues(filenames ...string) (string, error) {
+	if len(filenames) <= 0 {
+		return "", errors.New("You must provide at least one filename for reading Values")
+	}
+	var resultValues map[string]interface{}
+	for _, filename := range filenames {
+
+		var override map[string]interface{}
+		bs, err := ioutil.ReadFile(filename)
+		if err != nil {
+			log.Println(err)
+			continue
+		}
+		if err := yaml.Unmarshal(bs, &override); err != nil {
+			log.Println(err)
+			continue
+		}
+
+		// check if is nil. This will only happen for the first filename
+		if resultValues == nil {
+			resultValues = override
+		} else {
+			for k, v := range override {
+				resultValues[k] = v
+			}
+		}
+
+	}
+	bs, err := yaml.Marshal(resultValues)
+	if err != nil {
+		log.Println(err)
+		return "", err
+	}
+
+	return string(bs), nil
+}
+
 // init 初始化加载配置文件
 func init() {
 	var envPath string
 	if os.Getenv(gin.EnvGinMode) != gin.TestMode {
 		envPath = path.Join(getCurrentPath(), "../../config/app.yml")
 	} else {
-		envPath = path.Join(getCurrentPath(), "../../config/app_test.yml")
+		envPath = path.Join(getCurrentPath(), "../../config/app.test.yml")
 	}
+	localEnvPath := path.Join(getCurrentPath(), "../../config/app.local.yml")
 	fmt.Printf("Load config file '%s'\n", envPath)
 	// 解析 app.yml
-	file, err := ioutil.ReadFile(envPath)
+	file, err := ReadValues(envPath, localEnvPath)
 	if err != nil {
-		log.Fatalln(err)
+		panic(err)
 	}
-	err = yaml.Unmarshal([]byte(file), &config)
-	if err != nil {
-		log.Fatalln(err)
+	if err = yaml.Unmarshal([]byte(file), &config); err != nil {
+		panic(err)
 	}
+
 	App = config.App
 	Server = config.Server
 	Database = config.Database

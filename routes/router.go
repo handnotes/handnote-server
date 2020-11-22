@@ -6,11 +6,15 @@ import (
 	"github.com/handnotes/handnote-server/middleware/jwt"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
+	"net/http"
 )
 
-// SetupRouter 设置路由
 func SetupRouter() *gin.Engine {
 	router := gin.New()
+
+	router.GET("/ping", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{"message": "Pong!"})
+	})
 
 	v1 := router.Group("/api/v1")
 	{
@@ -26,7 +30,6 @@ func SetupRouter() *gin.Engine {
 			v1.GET("/memos", apiV1.ListMemo)
 			v1.PUT("/memos/:id", apiV1.UpdateMemo)
 		}
-
 	}
 
 	return router

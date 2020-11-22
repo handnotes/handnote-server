@@ -1,4 +1,5 @@
 app:
+  name: Handnote
   jwt_secret: handnote
 
 server:
@@ -18,9 +19,9 @@ redis:
   db: 0
 
 email:
+  smtp_server: smtpdm.aliyun.com:25
+  smtp_password:
   from: no-reply@mutoe.com
-  from_subject: Handnote
-  subject: Handnote验证码
 
 code:
   min: 100000

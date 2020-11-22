@@ -5,7 +5,6 @@ import (
 	"github.com/handnotes/handnote-server/docs"
 	"github.com/handnotes/handnote-server/pkg/setting"
 	"github.com/handnotes/handnote-server/routes"
-	_ "github.com/joho/godotenv/autoload"
 )
 
 func main() {
@@ -16,5 +15,5 @@ func main() {
 	listenAddr := fmt.Sprintf("127.0.0.1:%d", setting.Server.HTTPPort)
 	router := routes.SetupRouter()
 
-	router.Run(listenAddr)
+	_ = router.Run(listenAddr)
 }

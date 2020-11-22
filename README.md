@@ -1,34 +1,35 @@
 # Server
 
-## Getting Start
+## Quick start
 
-``` bash
-cp .env.example .env
+``` shell
 ./start.sh
 ```
 
-Then, visit the address http://localhost:9090/hello
+Then, visit the address http://localhost:9090/ping
 
-> The swagger document located http://localhost:9090/api/v1/swagger/index.html
+> You can customize your configuration by edit `config/app.local.yml`
 
-## Initial Postgres
+The swagger document located  
 
-``` bash
-docker-compose up -d postgres
+http://host/api/v1/swagger/index.html  
+http://host/api/v1/swagger/doc.json
+
+## Manual start
+
+``` shell
+# customize configurations
+cp config/app.yml config/app.local.yml
+
+# start postgres and redis service
+docker-compose up -d
+
+# bootstrap
+go run main.go
 ```
-
-## Initial Redis
-
-``` bash
-docker-compose up -d redis
-```
-
-## Setup SMTP service
-
-Modify the SMTP server and password in `.env` file
 
 ## Test
-``` bash
-# set test env
-$ GIN_MODE=test go test
+
+``` shell
+GIN_MODE=test go test
 ```
