@@ -28,6 +28,10 @@ docker-compose up -d
 go run main.go
 ```
 
+## Database seeds
+
+You can run the SQL script in `seed` folder after app bootstrapped.
+
 ## Test
 
 ``` shell
