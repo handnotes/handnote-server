@@ -44,7 +44,7 @@ func SendEmail(c *gin.Context) {
 		return
 	}
 	key := "hd:" + request.Email
-	redis.RedisClient.Set(key, code, setting.Code.ValidityPeriod*time.Minute)
+	redis.RedisClient.Set(key, code, setting.Code.ValidityPeriod)
 	c.JSON(http.StatusCreated, gin.H{"message": "send email success."})
 }
 

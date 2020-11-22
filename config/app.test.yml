@@ -26,4 +26,4 @@ email:
 code:
   min: 100000
   max: 999999
-  validity_period: 5
+  validity_period: 5m
