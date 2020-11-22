@@ -9,7 +9,7 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/postgres" // postgres driver
 )
 
-var dbConn *gorm.DB
+var DB *gorm.DB
 
 // init 初始化数据库连接
 func init() {
@@ -18,13 +18,13 @@ func init() {
 	connStr := fmt.Sprintf("host=%s port=%d user=%s dbname=%s sslmode=%s password=%s",
 		setting.Database.Host, setting.Database.Port, setting.Database.User,
 		setting.Database.Dbname, setting.Database.Sslmode, setting.Database.Password)
-	dbConn, err = gorm.Open("postgres", connStr)
+	DB, err = gorm.Open("postgres", connStr)
 	if err != nil {
 		log.Fatalln(err)
 	}
-	dbConn.AutoMigrate(&User{})
-	dbConn.AutoMigrate(&Memo{})
-	dbConn.AutoMigrate(&Version{})
-	dbConn.DB().SetMaxIdleConns(10)
-	dbConn.DB().SetMaxOpenConns(100)
+	DB.AutoMigrate(&User{})
+	DB.AutoMigrate(&Memo{})
+	DB.AutoMigrate(&Version{})
+	DB.DB().SetMaxIdleConns(10)
+	DB.DB().SetMaxOpenConns(100)
 }

@@ -18,13 +18,13 @@ type Version struct {
 
 // GetVersionList 获取版本列表
 func GetVersionList() (versions []Version) {
-	dbConn.Find(&versions)
+	DB.Find(&versions)
 	return
 }
 
 // SaveVersion 保存版本信息，包括创建/更新
 func SaveVersion(version *Version) error {
-	if err := dbConn.Save(version).Error; err != nil {
+	if err := DB.Save(version).Error; err != nil {
 		return err
 	}
 	fmt.Println(version)

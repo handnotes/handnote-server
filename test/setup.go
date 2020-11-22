@@ -22,15 +22,34 @@ func InitialRouter() {
 	router = routes.SetupRouter()
 }
 
-func HttpGet(uri string) []byte {
+func SetupTestDB() (gormDB *gorm.DB, mock sqlmock.Sqlmock) {
+	db, mock, _ := sqlmock.New()
+	gormDB, _ = gorm.Open("sqlite3", db)
+
+	models.DB = gormDB
+	return
+}
+
+func GenerateUserSeeder() {
+	user := models.User{
+		ID:       1,
+		Email:    "root@admin.com",
+		UserName: "root",
+		Password: "123456",
+	}
+	_ = models.SaveUser(&user)
+}
+
+func HttpGet(uri string) (code int, body []byte) {
 	w := httptest.NewRecorder()
 	req := httptest.NewRequest("GET", uri, nil)
 	router.ServeHTTP(w, req)
 	result := w.Result()
 	defer result.Body.Close()
 
-	body, _ := ioutil.ReadAll(result.Body)
-	return body
+	code = result.StatusCode
+	body, _ = ioutil.ReadAll(result.Body)
+	return
 }
 
 func HttpPost(uri string, form url.Values) (code int, body []byte) {

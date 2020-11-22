@@ -18,7 +18,7 @@ type UpdateMemoForm struct {
 
 // ListMemo 备忘录/便笺列表
 func ListMemo(c *gin.Context) {
-	user := c.MustGet(gin.AuthUserKey).(util.Claims)
+	user := c.MustGet(gin.AuthUserKey).(*util.Claims)
 	memos := models.GetMemoList(user.ID)
 	c.JSON(http.StatusOK, gin.H{"data": memos})
 }
@@ -36,8 +36,10 @@ func UpdateMemo(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"message": "ID错误"})
 		return
 	}
+	user := c.MustGet(gin.AuthUserKey).(util.Claims)
 	memo := models.Memo{
 		ID:       uint(id),
+		UserID:   user.ID,
 		Title:    request.Title,
 		Content:  request.Content,
 		Archived: request.Archived,

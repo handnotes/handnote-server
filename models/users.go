@@ -16,7 +16,7 @@ func (User) TableName() string {
 // User 定义用户表对应的结构
 type User struct {
 	ID        uint      `form:"id" json:"id" gorm:"primary_key;not null;auto_increment"`
-	Phone     string    `form:"phone" json:"phone" gorm:"type:char(11);not null;unique;default:''"`
+	Phone     string    `form:"phone" json:"phone" gorm:"type:char(11);unique;default:''"`
 	Email     string    `form:"email" json:"email" gorm:"size:50;unique_index;not null;default:''"`
 	UserName  string    `form:"user_name" json:"user_name" gorm:"size:50;not null;default:''"`
 	Password  string    `form:"password" json:"password" gorm:"type:char(60);not null;default:''"`
@@ -29,7 +29,7 @@ type User struct {
 
 // GetUserByEmail 通过邮箱获取单个用户
 func GetUserByEmail(email string) (user User, err error) {
-	if err = dbConn.Where(User{Email: email}).Find(&user).Error; err != nil {
+	if err = DB.Where(User{Email: email}).Find(&user).Error; err != nil {
 		return
 	}
 	return
@@ -46,7 +46,7 @@ func (user *User) BeforeSave(scope *gorm.Scope) (err error) {
 
 // SaveUser 保存用户信息，包括创建/更新
 func SaveUser(user *User) error {
-	if err := dbConn.Save(user).Error; err != nil {
+	if err := DB.Save(user).Error; err != nil {
 		return err
 	}
 	fmt.Println(user)

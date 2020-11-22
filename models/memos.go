@@ -26,13 +26,13 @@ type Memo struct {
 
 // GetMemoList 获取备忘录/便笺列表
 func GetMemoList(userId uint) (memos []Memo) {
-	dbConn.Find(&memos, "user_id=?", userId)
+	DB.Find(&memos, "user_id=?", userId)
 	return
 }
 
 // SaveMemo 保存备忘录/便笺信息，包括创建/更新
 func SaveMemo(memo *Memo) error {
-	if err := dbConn.Save(memo).Error; err != nil {
+	if err := DB.Save(memo).Error; err != nil {
 		return err
 	}
 	fmt.Println(memo)

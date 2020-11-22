@@ -15,45 +15,150 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func init() {
+func TestMain(m *testing.M) {
+	gin.SetMode(gin.TestMode)
 	InitialRouter()
+	os.Exit(m.Run())
 }
+
+type AnyTime struct{}
 
 func TestRegister(t *testing.T) {
 
 	t.Run("it should be failed when no request body", func(t *testing.T) {
-		form := url.Values{}
-		code, _ := HttpPost("/v1/auth/register", form)
+		db, _ := SetupTestDB()
+		defer db.Close()
 
-		assert.Equal(t, 400, code)
+		code, body := HttpPost("/v1/auth/register", nil)
+		assert.Equal(t, http.StatusBadRequest, code)
+		var res v1.ResponseWithMessage
+		_ = json.Unmarshal(body, &res)
+		assert.Equal(t, "表单校验失败", res.Message)
 	})
 
 	t.Run("it should be success when correct params", func(t *testing.T) {
-		form := url.Values{}
-		form.Add("email", "mutoe@foxmail.com")
-		form.Add("user_name", "mutoe1")
-		form.Add("password", "123456")
-		form.Add("code", "123456")
-		code, body := HttpPost("/v1/auth/register", form)
-		var res v1.AuthResponse
-		_ = json.Unmarshal(body, res)
+		db, mock := SetupTestDB()
+		defer db.Close()
 
-		assert.Equal(t, 200, code)
-		assert.IsType(t, "string", res.Body.AccessToken)
+		mock.ExpectQuery(`^SELECT \* FROM "users"*`).
+			WithArgs("mutoe@foxmail.com").
+			WillReturnRows(sqlmock.NewRows([]string{}))
+		mock.ExpectBegin()
+		mock.ExpectExec(`^INSERT (.+)`).
+			WithArgs("mutoe@foxmail.com", "mutoe", sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg()).
+			WillReturnResult(sqlmock.NewResult(1, 1))
+		mock.ExpectQuery(`^SELECT (.+)`).
+			WithArgs(1).
+			WillReturnRows(sqlmock.NewRows([]string{}))
+		mock.ExpectCommit()
+
+		mock.ExpectBegin()
+		mock.ExpectExec(`^INSERT (.+)`).
+			WithArgs("memo", 1).
+			WillReturnResult(sqlmock.NewResult(1, 1))
+		mock.ExpectCommit()
+
+		form := url.Values{
+			"email":     []string{"mutoe@foxmail.com"},
+			"user_name": []string{"mutoe"},
+			"password":  []string{"123456"},
+			"code":      []string{"123456"},
+		}
+		HttpPost("/v1/auth/register", form)
+
+		if err := mock.ExpectationsWereMet(); err != nil {
+			t.Error(err)
+		}
+	})
+
+	t.Run("it should be failed when duplicate email", func(t *testing.T) {
+		db, mock := SetupTestDB()
+		defer db.Close()
+
+		db.Exec(`INSERT INTO "users" ("email", "user_name", "password") VALUES (?, ?, ?)`, "mutoe@foxmail.com", "mutoe", "123456")
+
+		mock.ExpectQuery(`^SELECT \* FROM "users"*`).
+			WithArgs("mutoe@foxmail.com").
+			WillReturnRows(sqlmock.NewRows([]string{}))
+
+		form := url.Values{
+			"email":     []string{"mutoe@foxmail.com"},
+			"user_name": []string{"mutoe"},
+			"password":  []string{"123456"},
+			"code":      []string{"123456"},
+		}
+		code, body := HttpPost("/v1/auth/register", form)
+
+		assert.Equal(t, http.StatusBadRequest, code)
+		var res v1.ResponseWithMessage
+		_ = json.Unmarshal(body, &res)
+		assert.Equal(t, "创建用户失败", res.Message)
+		if err := mock.ExpectationsWereMet(); err != nil {
+			t.Error(err)
+		}
 	})
 
 	t.Run("it should be failed when incorrect verification code", func(t *testing.T) {
+		form := url.Values{
+			"email":     []string{"mutoe@foxmail.com"},
+			"user_name": []string{"mutoe"},
+			"password":  []string{"123456"},
+			"code":      []string{"0"},
+		}
+		code, body := HttpPost("/v1/auth/register", form)
+
+		assert.Equal(t, http.StatusBadRequest, code)
+		var res v1.ResponseWithMessage
+		_ = json.Unmarshal(body, &res)
+		assert.Equal(t, "验证码失效", res.Message)
+
+	})
+
+}
+
+func TestLogin(t *testing.T) {
+	t.Run("it should be success when login with correct params", func(t *testing.T) {
+		db, mock := SetupTestDB()
+		defer db.Close()
+
+		mock.ExpectQuery(`^SELECT*`).
+			WithArgs("mutoe@foxmail.com").
+			WillReturnRows(sqlmock.NewRows([]string{}))
+
 		form := url.Values{}
 		form.Add("email", "mutoe@foxmail.com")
-		form.Add("user_name", "mutoe")
 		form.Add("password", "123456")
-		form.Add("code", "0")
-		code, body := HttpPost("/v1/auth/register", form)
+		code, body := HttpPost("/v1/auth/login", form)
+
+		assert.Equal(t, http.StatusOK, code)
+		var res v1.AuthResponse
+		_ = json.Unmarshal(body, &res)
+		assert.IsType(t, "string", res.Body.AccessToken)
+		if err := mock.ExpectationsWereMet(); err != nil {
+			t.Error(err)
+		}
+	})
+
+	t.Run("it should be failed when login with incorrect params", func(t *testing.T) {
+		db, mock, _ := sqlmock.New()
+		gormDB, _ := gorm.Open("sqlite3", db)
+		models.DB = gormDB
+		defer db.Close()
+
+		mock.ExpectQuery(`^SELECT*`).
+			WillReturnRows(sqlmock.NewRows([]string{}))
+
+		form := url.Values{}
+		form.Add("email", "mutoe@foxmail.com")
+		form.Add("password", "1234567")
+		code, body := HttpPost("/v1/auth/login", form)
 
 		assert.Equal(t, 400, code)
 		var res v1.ResponseWithMessage
 		_ = json.Unmarshal(body, &res)
-		assert.Equal(t, "验证码失效", res.Message)
+		assert.Equal(t, "邮箱和密码匹配不上", res.Message)
+		if err := mock.ExpectationsWereMet(); err != nil {
+			t.Error(err)
+		}
 	})
-
 }
