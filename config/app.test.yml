@@ -6,12 +6,8 @@ server:
   http_port: 9091
 
 database:
-  host: 127.0.0.1
-  port: 5432
-  dbname: handnote_test
-  user: postgres
-  password: postgres
-  sslmode: disable
+  dialect: sqlite
+  sqlite_file: handnote.db
 
 redis:
   addr: 127.0.0.1:6379

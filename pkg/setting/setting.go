@@ -27,12 +27,14 @@ type ServerSection struct {
 
 // DatabaseSection app.yaml database 配置
 type DatabaseSection struct {
-	Host     string `yaml:"host"`
-	Port     int    `yaml:"port"`
-	Dbname   string `yaml:"dbname"`
-	User     string `yaml:"user"`
-	Password string `yaml:"password"`
-	Sslmode  string `yaml:"sslmode"`
+	Dialect    string `yaml:"dialect"`
+	Host       string `yaml:"host"`
+	Port       int    `yaml:"port"`
+	Dbname     string `yaml:"dbname"`
+	User       string `yaml:"user"`
+	Password   string `yaml:"password"`
+	Sslmode    string `yaml:"sslmode"`
+	SqliteFile string `yaml:"sqlite_file"`
 }
 
 // RedisSection app.yaml redis 配置
@@ -126,7 +128,7 @@ func init() {
 	} else {
 		envPath = path.Join(getCurrentPath(), "../../config/app.test.yml")
 	}
-	localEnvPath := path.Join(getCurrentPath(), "../../config/app.local.yml")
+	localEnvPath := path.Join(getCurrentPath(), "../../config/app.local1.yml")
 	fmt.Printf("Load config file '%s'\n", envPath)
 	// 解析 app.yml
 	file, err := ReadValues(envPath, localEnvPath)

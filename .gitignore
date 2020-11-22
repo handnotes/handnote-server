@@ -4,3 +4,4 @@ coverage.txt
 .idea
 config/*.local.yml
 bin
+handnote.db

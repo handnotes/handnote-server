@@ -6,6 +6,7 @@ import (
 	"net/url"
 	"os"
 	"testing"
+	"time"
 
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/gin-gonic/gin"
@@ -31,8 +32,7 @@ func setupUserSeed(mock sqlmock.Sqlmock) {
 
 func TestRegister(t *testing.T) {
 	t.Run("it should be failed when no request body", func(t *testing.T) {
-		db, _ := SetupTestDB()
-		defer db.Close()
+		_, _ = SetupTestDB()
 
 		code, body := HttpPost(ApiBaseUrl+"/auth/register", nil)
 		assert.Equal(t, http.StatusBadRequest, code)
@@ -42,25 +42,16 @@ func TestRegister(t *testing.T) {
 	})
 
 	t.Run("it should be success when correct params", func(t *testing.T) {
-		db, mock := SetupTestDB()
-		defer db.Close()
+		_, mock := SetupTestDB()
 
 		mock.ExpectQuery(`^SELECT \* FROM "users"*`).
 			WithArgs("mutoe@foxmail.com").
 			WillReturnRows(sqlmock.NewRows([]string{}))
 		mock.ExpectBegin()
-		mock.ExpectExec(`^INSERT (.+)`).
-			WithArgs("mutoe@foxmail.com", "mutoe", sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg()).
-			WillReturnResult(sqlmock.NewResult(1, 1))
-		mock.ExpectQuery(`^SELECT (.+)`).
-			WithArgs(1).
-			WillReturnRows(sqlmock.NewRows([]string{}))
-		mock.ExpectCommit()
-
-		mock.ExpectBegin()
-		mock.ExpectExec(`^INSERT (.+)`).
-			WithArgs("memo", 1).
-			WillReturnResult(sqlmock.NewResult(1, 1))
+		mock.ExpectQuery(`^INSERT INTO "users" .*`).
+			WithArgs("", "mutoe@foxmail.com", "mutoe", sqlmock.AnyArg(), 0, "").
+			WillReturnRows(sqlmock.NewRows([]string{"birth", "created_at", "updated_at", "id"}).
+				AddRow(time.Time{}, time.Time{}, time.Time{}, 1))
 		mock.ExpectCommit()
 
 		form := url.Values{
@@ -77,8 +68,7 @@ func TestRegister(t *testing.T) {
 	})
 
 	t.Run("it should be failed when duplicate email", func(t *testing.T) {
-		db, mock := SetupTestDB()
-		defer db.Close()
+		_, mock := SetupTestDB()
 
 		setupUserSeed(mock)
 
@@ -119,8 +109,7 @@ func TestRegister(t *testing.T) {
 func TestLogin(t *testing.T) {
 
 	t.Run("it should be success when login with correct params", func(t *testing.T) {
-		db, mock := SetupTestDB()
-		defer db.Close()
+		_, mock := SetupTestDB()
 
 		setupUserSeed(mock)
 
@@ -139,8 +128,7 @@ func TestLogin(t *testing.T) {
 	})
 
 	t.Run("it should be failed when login with incorrect params", func(t *testing.T) {
-		db, mock := SetupTestDB()
-		defer db.Close()
+		_, mock := SetupTestDB()
 
 		setupUserSeed(mock)
 

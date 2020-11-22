@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+
 	"github.com/handnotes/handnote-server/docs"
 	"github.com/handnotes/handnote-server/pkg/setting"
 	"github.com/handnotes/handnote-server/routes"

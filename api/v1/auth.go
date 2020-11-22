@@ -121,11 +121,11 @@ func Register(c *gin.Context) {
 		return
 	}
 	// 注册成功后新增用户版本信息
-	curVersion := 1
-	_ = models.SaveVersion(&models.Version{
-		Module:  models.MemoModule,
-		Version: curVersion,
-	})
+	// curVersion := 1
+	// _ = models.SaveVersion(&models.Version{
+	// 	Module:  models.MemoModule,
+	// 	Version: curVersion,
+	// })
 	// 生成 token
 	token, err := util.GenerateToken(user.ID, user.Email)
 	if err != nil {

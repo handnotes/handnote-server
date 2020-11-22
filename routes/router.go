@@ -1,12 +1,14 @@
 package routes
 
 import (
+	"net/http"
+
 	"github.com/gin-gonic/gin"
-	apiV1 "github.com/handnotes/handnote-server/api/v1"
-	"github.com/handnotes/handnote-server/middleware/jwt"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
-	"net/http"
+
+	apiV1 "github.com/handnotes/handnote-server/api/v1"
+	"github.com/handnotes/handnote-server/middleware/jwt"
 )
 
 func SetupRouter() *gin.Engine {

@@ -5,12 +5,13 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"net/url"
-	"os"
 	"strings"
 
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/gin-gonic/gin"
-	"github.com/jinzhu/gorm"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 
 	"github.com/handnotes/handnote-server/models"
 	"github.com/handnotes/handnote-server/routes"
@@ -26,12 +27,12 @@ func InitialRouter() {
 }
 
 func SetupTestDB() (gormDB *gorm.DB, mock sqlmock.Sqlmock) {
-	db, mock, _ := sqlmock.New()
-	gormDB, _ = gorm.Open("sqlite3", db)
+	mockDB, mock, _ := sqlmock.New()
+	gormDB, _ = gorm.Open(postgres.New(postgres.Config{Conn: mockDB}), &gorm.Config{
+		Logger: logger.Default.LogMode(logger.Silent),
+	})
 
-	gormDB.LogMode(os.Getenv("DEBUG_SQL") == "true")
 	models.DB = gormDB
-
 	return
 }
 
