@@ -21,8 +21,8 @@ type User struct {
 	Gender    int8      `form:"gender" json:"gender" gorm:"not null;default:0"`
 	Birth     time.Time `form:"birth" json:"birth" gorm:"not null;type:date;default:'1990-01-01'"`
 	AvatarURL string    `form:"avatar_url" json:"avatar_url" gorm:"size:200;default:''"`
-	CreatedAt time.Time `form:"created_at" json:"created_at" gorm:"not null;default:currentTimestamp"`
-	UpdatedAt time.Time `form:"updated_at" json:"updated_at" gorm:"not null;default:currentTimestamp"`
+	CreatedAt time.Time `form:"created_at" json:"created_at" gorm:"not null;default:current_timestamp"`
+	UpdatedAt time.Time `form:"updated_at" json:"updated_at" gorm:"not null;default:current_timestamp"`
 }
 
 func GetUserByEmail(email string) (user User, err error) {

@@ -4,11 +4,14 @@ import (
 	"fmt"
 
 	"github.com/handnotes/handnote-server/docs"
+	"github.com/handnotes/handnote-server/models"
 	"github.com/handnotes/handnote-server/pkg/setting"
 	"github.com/handnotes/handnote-server/routes"
 )
 
 func main() {
+	models.InitDatabase()
+
 	docs.SwaggerInfo.Title = "Handnote API"
 	docs.SwaggerInfo.Version = "1.0"
 	docs.SwaggerInfo.BasePath = "/api/v1"

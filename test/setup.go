@@ -22,7 +22,8 @@ var (
 	ApiBaseUrl = "/api/v1"
 )
 
-func InitialRouter() {
+func InitialTest() {
+	gin.SetMode(gin.TestMode)
 	router = routes.SetupRouter()
 }
 

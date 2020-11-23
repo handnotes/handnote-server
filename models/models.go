@@ -17,7 +17,11 @@ import (
 var DB *gorm.DB
 var logLevel = logger.Error
 
-func init() {
+func InitDatabase() {
+	if gin.Mode() == gin.TestMode {
+		return
+	}
+
 	var err error
 
 	if gin.Mode() == gin.DebugMode || os.Getenv("DEBUG_SQL") == "true" {

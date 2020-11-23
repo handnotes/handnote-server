@@ -6,10 +6,8 @@ import (
 	"net/url"
 	"os"
 	"testing"
-	"time"
 
 	"github.com/DATA-DOG/go-sqlmock"
-	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
 
 	v1 "github.com/handnotes/handnote-server/api/v1"
@@ -17,8 +15,7 @@ import (
 )
 
 func TestMain(m *testing.M) {
-	gin.SetMode(gin.TestMode)
-	InitialRouter()
+	InitialTest()
 	os.Exit(m.Run())
 }
 
@@ -50,8 +47,7 @@ func TestRegister(t *testing.T) {
 		mock.ExpectBegin()
 		mock.ExpectQuery(`^INSERT INTO "users" .*`).
 			WithArgs("", "mutoe@foxmail.com", "mutoe", sqlmock.AnyArg(), 0, "").
-			WillReturnRows(sqlmock.NewRows([]string{"birth", "created_at", "updated_at", "id"}).
-				AddRow(time.Time{}, time.Time{}, time.Time{}, 1))
+			WillReturnRows(mock.NewRows([]string{}))
 		mock.ExpectCommit()
 
 		form := url.Values{
@@ -107,7 +103,6 @@ func TestRegister(t *testing.T) {
 }
 
 func TestLogin(t *testing.T) {
-
 	t.Run("it should be success when login with correct params", func(t *testing.T) {
 		_, mock := SetupTestDB()
 
